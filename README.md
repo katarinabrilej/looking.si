@@ -6,3 +6,5 @@ V primeru, da se bomo prijavili kot uporabnik, bomo lahko brskali med hoteli in 
 Če pa se bomo prijavili kot adminitrator, potem bomo lahko še dodajali nove hotele v bazo ter spreminjali lastnosti že obstoječih hotelov.
 
 Prilagamo pa še sliko ER-diagrama, na podlagi katerega bova osnovali bazo:
+
+![diagram](./diagram/Looking.png)
