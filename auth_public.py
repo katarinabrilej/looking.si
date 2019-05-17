@@ -1,4 +1,4 @@
-db = 'sem2019_katarinab'
+db = 'sem2019_evade'
 host = 'baza.fmf.uni-lj.si'
-user = 'katarinab'
+user = 'evade'
 password = ''
