@@ -45,11 +45,11 @@ Lokacija INT REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
 cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, kapaciteta, Lokacija) VALUES ('The Beverly Hills Hotel', 5, 'hotel', 100, 1)")
 
 
-cur.execute("DROP TABLE IF EXISTS Hotugo CASCADE")
-cur.execute("""CREATE TABLE Hotugo(Hotel INT REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE,
+cur.execute("DROP TABLE IF EXISTS Ima CASCADE")
+cur.execute("""CREATE TABLE Ima(Hotel INT REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 Ugodnost INT REFERENCES Ugodnosti(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIMARY KEY (Hotel, Ugodnost))""")
-cur.execute("INSERT INTO Hotugo VALUES (1, 1)")
-cur.execute("INSERT INTO Hotugo VALUES (1, 2)")
+cur.execute("INSERT INTO Ima VALUES (1, 1)")
+cur.execute("INSERT INTO Ima VALUES (1, 2)")
 
 
 cur.execute("DROP TABLE IF EXISTS Znacilnosti CASCADE")
@@ -60,11 +60,11 @@ cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('center mesta')")
 cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('gore')")
 
 
-cur.execute("DROP TABLE IF EXISTS ZnaLok CASCADE")
-cur.execute("""CREATE TABLE Znalok(Lokacija INT REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE,
+cur.execute("DROP TABLE IF EXISTS Je_del CASCADE")
+cur.execute("""CREATE TABLE Je_del(Lokacija INT REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 Znacilnost INT REFERENCES Znacilnosti(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIMARY KEY (Lokacija, Znacilnost))""")
-cur.execute("INSERT INTO Znalok VALUES (1, 1)")
-cur.execute("INSERT INTO Znalok VALUES (1, 4)")
+cur.execute("INSERT INTO Je_del VALUES (1, 1)")
+cur.execute("INSERT INTO Je_del VALUES (1, 4)")
 
 
 cur.execute("DROP TABLE IF EXISTS Uporabnik CASCADE")
