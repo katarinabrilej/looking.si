@@ -60,11 +60,11 @@ cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('center mesta')")
 cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('gore')")
 
 
-cur.execute("DROP TABLE IF EXISTS Je_del CASCADE")
-cur.execute("""CREATE TABLE Je_del(Lokacija INT REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE,
+cur.execute("DROP TABLE IF EXISTS Vsebuje CASCADE")
+cur.execute("""CREATE TABLE Vsebuje(Lokacija INT REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 Znacilnost INT REFERENCES Znacilnosti(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIMARY KEY (Lokacija, Znacilnost))""")
-cur.execute("INSERT INTO Je_del VALUES (1, 1)")
-cur.execute("INSERT INTO Je_del VALUES (1, 4)")
+cur.execute("INSERT INTO Vsebuje VALUES (1, 1)")
+cur.execute("INSERT INTO Vsebuje VALUES (1, 4)")
 
 
 cur.execute("DROP TABLE IF EXISTS Uporabnik CASCADE")
@@ -80,7 +80,7 @@ Uporabnik INT REFERENCES Uporabnik(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIM
 
 
 
-
+# povezava http://baza.fmf.uni-lj.si/phppgadmin/
 # poženemo strežnik na portu 8080, glej http://localhost:8000/
 # run(host='localhost', port=8000)
 
