@@ -50,25 +50,33 @@ cur.execute("INSERT INTO Mesto (Ime_mesta) VALUES ('Honolulu')")
 cur.execute("INSERT INTO Mesto (Ime_mesta) VALUES ('Berlin')")
 cur.execute("INSERT INTO Mesto (Ime_mesta) VALUES ('Krakow')")
 
-
+# vnesi podatke 
 cur.execute("DROP TABLE IF EXISTS Lokacija CASCADE")
 cur.execute("""CREATE TABLE Lokacija(Id SERIAL PRIMARY KEY, Ime_lokacije TEXT, Tip TEXT, Mesto_id INT, 
 FOREIGN KEY(Mesto_id) REFERENCES Mesto(Id))""")
-
+#cur.execute("INSERT INTO Lokacija (Ime_lokacije) VALUES ('??')")
+#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('smučišče')")
+#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('plaža')")
+#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('center mesta')")
+#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('gore')")
+ 
 cur.execute("DROP TABLE IF EXISTS Hotel CASCADE")
 cur.execute("""CREATE TABLE Hotel(Id SERIAL PRIMARY KEY, Ime TEXT, st_zvezdic INT, 
 tip_nastanitve TEXT, Drzava_id INT, Mesto_id INT,
 FOREIGN KEY (Drzava_id) REFERENCES Drzava(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 FOREIGN KEY (Mesto_id) REFERENCES Mesto(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('The Beverly Hills Hotel', 5, 'hotel')")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('The Beverly Hills Hotel', 5, 'Hotel', 'ZDA', 'Los Angeles')")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('The Royal Hawaiian', 5, 'Hotel', 'ZDA', 'Honolulu')")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('Grand Hotel Costa Rica', 4, 'Hotel', 'Kostarika',San Jose')")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('Eurostars Panama City', 5, 'Hotel', 'Panama',Panama City')")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve) VALUES ('Hilton Berlin', 4, 'Hotel', 'Nemčija', Berlin')")
 
-
+# vnesi podatke 
 cur.execute("DROP TABLE IF EXISTS Na_lokaciji CASCADE")
 cur.execute("""CREATE TABLE Na_lokaciji(Hotel_id INT , Lokacija_id INT ,
 PRIMARY KEY (Hotel_id, Lokacija_id), FOREIGN KEY (Hotel_id) REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE, 
 FOREIGN KEY (Lokacija_id) REFERENCES Lokacija(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
-
-
+ 
 cur.execute("DROP TABLE IF EXISTS Ugodnosti CASCADE")
 cur.execute("CREATE TABLE Ugodnosti(Id SERIAL PRIMARY KEY, Ime_ugodnosti TEXT)")
 cur.execute("INSERT INTO Ugodnosti (Ime_ugodnosti) VALUES ('bazen')")
@@ -79,25 +87,17 @@ cur.execute("INSERT INTO Ugodnosti (Ime_ugodnosti) VALUES ('fitnes')")
 cur.execute("INSERT INTO Ugodnosti (Ime_ugodnosti) VALUES ('restavracija')")
 cur.execute("INSERT INTO Ugodnosti (Ime_ugodnosti) VALUES ('parkirišče')")
 
-
+# vnesi podatke 
 cur.execute("DROP TABLE IF EXISTS Ima CASCADE")
 cur.execute("""CREATE TABLE Ima(Hotel INT, Ugodnost INT , PRIMARY KEY (Hotel, Ugodnost),
-FOREIGN KEY (Hotel) REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE
-, FOREIGN KEY (Ugodnost) REFERENCES Ugodnosti(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
+FOREIGN KEY (Hotel) REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (Ugodnost) REFERENCES Ugodnosti(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
 cur.execute("INSERT INTO Ima VALUES (1, 1)")
 cur.execute("INSERT INTO Ima VALUES (1, 2)")
-
-
-#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('smučišče')")
-#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('plaža')")
-#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('center mesta')")
-#cur.execute("INSERT INTO Znacilnosti (Ime_znacilnosti) VALUES ('gore')")
-
 
 cur.execute("DROP TABLE IF EXISTS Uporabnik CASCADE")
 cur.execute("""CREATE TABLE Uporabnik (Id SERIAL PRIMARY KEY, Ime TEXT, Priimek TEXT,
 Uporabnisko_ime TEXT, geslo TEXT)""")
-
 
 cur.execute("DROP TABLE IF EXISTS Oceni CASCADE")
 cur.execute("""CREATE TABLE Oceni(Datum DATE, Mnenje TEXT, Vrednost INT,
