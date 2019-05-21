@@ -39,3 +39,5 @@ rsconnect/
 auth.py
 auth.R
 .Rproj.user
+
+__pycache__
