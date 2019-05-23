@@ -38,6 +38,7 @@ cur.execute("INSERT INTO Drzava (Ime_drzave,Celina_id) VALUES ('Kostarika',2)")
 cur.execute("INSERT INTO Drzava (Ime_drzave,Celina_id) VALUES ('Panama',2)")
 cur.execute("INSERT INTO Drzava (Ime_drzave,Celina_id) VALUES ('Nemčija',4)")
 cur.execute("INSERT INTO Drzava (Ime_drzave,Celina_id) VALUES ('Poljska',4)")
+cur.execute("INSERT INTO Drzava (Ime_drzave,Celina_id) VALUES ('Slovenija',4)")
 
 
 cur.execute("DROP TABLE IF EXISTS Mesto CASCADE")
@@ -134,6 +135,12 @@ cur.execute("""CREATE TABLE Oceni(Datum DATE, Mnenje TEXT, Vrednost INT,
 Hotel INT REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 Uporabnik INT REFERENCES Uporabnik(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIMARY KEY (Uporabnik, Hotel, Datum))""")
 
+#cur.execute("DROP TABLE IF EXISTS Slike CASCADE")
+#cur.execute("CREATE TABLE Slike(Id SERIAL PRIMARY KEY, Slika BYTEA)")
+
+
+
+#cur.execute("INSERT INTO Slike (Slika) VALUES (bytea('Slike\berlin_hotel.jpg'))")
 
 
 
