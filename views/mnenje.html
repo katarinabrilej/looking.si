@@ -1,0 +1,46 @@
+<!-- to je predpodloga za košček strani zato ni rebase-->
+
+<!-- najprej da link-->
+<a name="mnenje-{{tid}}">
+<div class="panel panel-primary">
+  <!-- panel heading da modro pasico, href pomeni da skoči na user-->
+  <div class="panel-heading">
+    <!-- dvojni {{}} pomeni da se te spremenljivke dobijo ko kličemo include v main.html -->
+    <!-- class="mnenje-avtor to je zapisano v fakebook.css-->
+    <!-- kako pa vemo da uporabljamo fakebook.css, nekje je moral bit nek import, najbrž v base ker smo mnenje se klice iz main, v main pa je rebase na base-->
+    <a class="mnenje-avtor" href="/user/{{avtor}}/">{{avtor_ime}}</a>
+    <span class="mnenje-cas">{{cas}}</span>
+  </div>
+  <div class="panel-body">
+    <!-- to kar je pod vsebina mi napišemo na fakebook strani-->
+    <div class="mnenje-vsebina">{{vsebina}}</div>
+    <div class="track-kontrole">
+    %if avtor == username:
+    <!-- če smo mi napisali komentra lahko zbrišemo, sicer ne -->
+    <a href="/mnenje/{{tid}}/delete/">zbriši</a>
+    %end
+    </div>
+    <!-- for zanka gre po komentrajih, ki so zapisani kot trojice->
+    %for (username, ime, vsebina) in komentarji:
+    <!-- te div so delčki za vsak komentar-->
+    <div class="well well-sm">
+      <!-- to bo link na levo, če napišemo komentar-->
+      <a href="/user/{{username}}/">{{ime}}</a>:
+      {{vsebina}}
+    </div>
+    %end
+    <div class="panel-footer">
+      <div class="panel-body">
+        <!-- imamo neko komentar/ v fakebook.py-->
+       <form method="post" action="/komentar/{{tid}}/">
+          <textarea class="komentar" name="komentar"></textarea>
+          <!--  to bo zdaj nek gumbek-->
+          <input type="submit" value="Vnesi"/>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+
+<!-- to je kot neka tabela -->

@@ -1,0 +1,44 @@
+%rebase ('base.html', title='Looking')
+<!-- rebase je podobno kot import v pythonu, ampak rebase nekako uvozu stvari okrog tega kar smo mi napisali-->
+<!--vbistvu se potem v base vstavi to kar tu napišemo -->
+<!-- rebase je na nek način kot import tista šara ki načeloma pride prej-->
+
+%if sporocilo:
+  <div class="alert {{sporocilo[0]}} alert-dismissable">{{sporocilo[1]}}
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  </div>
+%end
+
+<form id="trac-forma" class="form-horizontal" method="post" action="/trac/new/">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Podaj mnenje.</legend>
+
+<!-- to je tist prazen prostor kjer dodaš komentar-->
+<!-- Textarea -->
+<div class="control-group">
+  <label class="control-label" for="trac"></label>
+  <div class="controls">                     
+    <textarea id="trac" name="trac"></textarea>
+  </div>
+</div>
+
+<!-- to je gumb v škatli-->
+<!-- Button -->
+<div class="control-group">
+  <label class="control-label" for="singlebutton"></label>
+  <div class="controls">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Oddaj mnenje.</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+%for (tid,avtor,avtor_ime,cas,vsebina,komentarji) in mnenje:
+%include ('mnenje.html', tid=tid, avtor=avtor, avtor_ime=avtor_ime, cas=cas, vsebina=vsebina, komentarji=komentarji)
+%end
+
+<!-- iz tistega kar smo prej lepo sestavili, zdaj uporabimo drugo predlogo trac.html in to napolnimo z nekimi parametri -->
+
