@@ -43,7 +43,7 @@ def set_sporocilo(tip, vsebina):
 # Funkcija, ki iz cookija dobi sporočilo, če je
 # kot brskalnik vrnemo cookie, pod nekim ključem lahko zbrisemo ali dodamo in potem vrnemo
 def get_sporocilo():
-    sporocilo = get_cookie('message', default=None, secret=secret)
+    sporocilo = request.get_cookie('message', default=None, secret=secret)
     response.delete_cookie('message')
     return sporocilo
 
@@ -101,10 +101,10 @@ def get_user(auto_login = True):
     username = request.get_cookie('username', secret=secret)
     # Preverimo, ali ta uporabnik obstaja
     if username is not None:
-        cur.execute("SELECT uporabnisko_ime, ime FROM uporabnik WHERE uporabnisko_ime=?",
+        cur.execute("SELECT uporabnisko_ime, ime FROM uporabnik WHERE uporabnisko_ime=%s",
                   [username])
         r = cur.fetchone()
-        cur.close ()
+       # cur.close ()
         if r is not None:
             # uporabnik obstaja, vrnemo njegove podatke
             # če smo te našli v bazi te vrnemo
@@ -172,8 +172,9 @@ def login_post():
     #geslo = password_hash(request.forms.geslo)
     geslo = request.forms.password
     # Preverimo, ali se je uporabnik pravilno prijavil
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     cur.execute("SELECT * FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
-              [username, geslo])
+                [username, geslo])
     if cur.fetchone() is None:
         # Username in geslo se ne ujemata
         return template("login.html",
@@ -197,6 +198,38 @@ def login_get():
                            username=None,
                            ime=None,
                            napaka=None)
+
+@post("/register/")
+def register_post():
+    """Registriraj novega uporabnika."""
+    username = request.forms.username
+    ime = request.forms.ime
+    password1 = request.forms.password1
+    password2 = request.forms.password2
+    # Ali uporabnik že obstaja?
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+    cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s", [username])
+    if cur.fetchone():
+        # Uporabnik že obstaja
+        return template("register.html",
+                               username=username,
+                               ime=ime,
+                               napaka='To uporabniško ime je že zavzeto')
+    elif not password1 == password2:
+        # Geslo se ne ujemata
+        return template("register.html",
+                               username=username,
+                               ime=ime,
+                               napaka='Gesli se ne ujemata')
+    else:
+        # Vse je v redu, vstavi novega uporabnika v bazo
+        #password = password_hash(password1)
+        cur.execute("INSERT INTO uporabnik (uporabnisko_ime, ime, geslo) VALUES (%s, %s, %s)",
+                  (username, ime, password1))
+        # Daj uporabniku cookie
+        response.set_cookie('username', username, path='/', secret=secret)
+        redirect("/")
+
 
 
 ######################################################################
