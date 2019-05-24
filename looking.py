@@ -102,7 +102,7 @@ def get_user(auto_login = True):
     # Preverimo, ali ta uporabnik obstaja
     if username is not None:
         cur.execute("SELECT uporabnisko_ime, ime FROM uporabnik WHERE uporabnisko_ime=?",
-                  [uporabnisko_ime])
+                  [username])
         r = cur.fetchone()
         cur.close ()
         if r is not None:
@@ -128,7 +128,7 @@ def krena():
     return "Živjo"
 
 # ??
-route("/static/<filename:path>")
+@route("/static/<filename:path>")
 def static(filename):
     """Splošna funkcija, ki servira vse statične datoteke iz naslova
        /static/..."""
@@ -162,6 +162,27 @@ def login_get():
     return template("login.html",
                           napaka=None,
                          username=None)
+
+@post("/login/")
+def login_post():
+    """Obdelaj izpolnjeno formo za prijavo"""
+    # Uporabniško ime, ki ga je uporabnik vpisal v formo
+    username = request.forms.username
+    # Izračunamo hash gesla, ki ga bomo spravili
+    #geslo = password_hash(request.forms.geslo)
+    geslo = request.forms.password
+    # Preverimo, ali se je uporabnik pravilno prijavil
+    cur.execute("SELECT * FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
+              [username, geslo])
+    if cur.fetchone() is None:
+        # Username in geslo se ne ujemata
+        return template("login.html",
+                               napaka="Nepravilna prijava",
+                               username=username)
+    else:
+        # Vse je v redu, nastavimo cookie in preusmerimo na glavno stran
+        response.set_cookie('uporabnisko_ime', username, path='/', secret=secret)
+        redirect("/")
 
 @get("/logout/")
 def logout():
