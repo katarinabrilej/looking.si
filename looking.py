@@ -38,13 +38,13 @@ def password_hash(s):
 # Funkcija, ki v cookie spravi sporocilo
 
 def set_sporocilo(tip, vsebina):
-    bottle.response.set_cookie('message', (tip, vsebina), path='/', secret=secret)
+    response.set_cookie('message', (tip, vsebina), path='/', secret=secret)
 
 # Funkcija, ki iz cookija dobi sporočilo, če je
 # kot brskalnik vrnemo cookie, pod nekim ključem lahko zbrisemo ali dodamo in potem vrnemo
 def get_sporocilo():
-    sporocilo = bottle.request.get_cookie('message', default=None, secret=secret)
-    bottle.response.delete_cookie('message')
+    sporocilo = get_cookie('message', default=None, secret=secret)
+    response.delete_cookie('message')
     return sporocilo
 
 # To smo dobili na http://stackoverflow.com/questions/1551382/user-friendly-time-format-in-python
@@ -98,7 +98,7 @@ def get_user(auto_login = True):
        vrni njegov username in ime. Če ni prijavljen, presumeri
        na stran za prijavo ali vrni None (advisno od auto_login).
     """
-    username = bottle.request.get_cookie('username', secret=secret)
+    username = request.get_cookie('username', secret=secret)
     # Preverimo, ali ta uporabnik obstaja
     if username is not None:
         cur.execute("SELECT uporabnisko_ime, ime FROM uporabnik WHERE uporabnisko_ime=?",
@@ -120,17 +120,63 @@ def get_user(auto_login = True):
     # ali smo user ki je že v bazi
     # ali pa te preusmeri na lgoin stran
 
-@get("/login/")
-def login_get():
-    """Serviraj formo za login."""
-    return "HAHA"
-    #return bottle.template("login.html",
-     #                      napaka=None,
-      #                     username=None)
+######################################################################
+# Funkcije, ki obdelajo zahteve odjemalcev.
 
 @route("/zivjo/")
 def krena():
     return "Živjo"
+
+# ??
+route("/static/<filename:path>")
+def static(filename):
+    """Splošna funkcija, ki servira vse statične datoteke iz naslova
+       /static/..."""
+    return static_file(filename, root=static_dir)
+
+# ??
+
+@route("/")
+def main():
+    """Glavna stran."""
+    (username, ime) = get_user() 
+    # Morebitno sporočilo za uporabnika
+    sporocilo = get_sporocilo()
+    # Vrnemo predlogo za glavno stran
+    # izriši spletno stran iz predloge, to je pol html pa pol luknje
+    # na praznih mestih povemo kaj moramo not vstavit
+    # main html je pod views
+    # torej uporabi predlogo main.html, da jo napolni rabis 4 spremenljivke in vrni kot html
+    #return template("main.html",
+    #                       ime=ime,
+    #                       username=username,
+    #                       sporocilo=sporocilo)
+    return "glavna stran"
+#obstaja večov tipov zahtevkov v protokolu http, get, post, delete, put,...
+#get request -> če samo gremo na ta link
+#post request, če moramo kam it na strežnik in nek gumb pritisnit
+
+@get("/login/")
+def login_get():
+    """Serviraj formo za login."""
+    return template("login.html",
+                          napaka=None,
+                         username=None)
+
+@get("/logout/")
+def logout():
+    """Pobriši cookie in preusmeri na login."""
+    response.delete_cookie('uporabnisko_ime')
+    redirect('/login/')
+
+@get("/register/")
+def login_get():
+    """Prikaži formo za registracijo."""
+    return template("register.html", 
+                           username=None,
+                           ime=None,
+                           napaka=None)
+
 
 ######################################################################
 # Glavni program
