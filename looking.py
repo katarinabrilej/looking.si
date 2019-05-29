@@ -169,8 +169,9 @@ def login_post():
     # Uporabniško ime, ki ga je uporabnik vpisal v formo
     username = request.forms.username
     # Izračunamo hash gesla, ki ga bomo spravili
-    geslo = password_hash(request.forms.password)
-    #geslo = request.forms.password
+   # geslo = password_hash(request.forms.password)
+
+    geslo = request.forms.password
     # Preverimo, ali se je uporabnik pravilno prijavil
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     cur.execute("SELECT * FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
@@ -204,6 +205,7 @@ def register_post():
     """Registriraj novega uporabnika."""
     username = request.forms.username
     ime = request.forms.ime
+    priimek = request.forms.priimek
     password1 = request.forms.password1
     password2 = request.forms.password2
     # Ali uporabnik že obstaja?
@@ -223,9 +225,10 @@ def register_post():
                                napaka='Gesli se ne ujemata')
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
+        uporabnik = "uporabnik"
         password = password_hash(password1)
-        cur.execute("INSERT INTO uporabnik (uporabnisko_ime, ime, geslo) VALUES (%s, %s, %s)",
-                  (username, ime, password1))
+        cur.execute("INSERT INTO uporabnik (uporabnisko_ime, ime, priimek, geslo, tip) VALUES (%s, %s, %s, %s, %s)",
+                  (username, ime, priimek, password1, uporabnik))
         # Daj uporabniku cookie
         response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")

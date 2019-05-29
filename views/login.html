@@ -29,11 +29,12 @@
 
   <body>
 <!-- ndiv je kot neko območje, če nastavimo potem stil lahko dobimo neko special škatlico, barva, višina -->
+    <p style ="border: 3px solid #4d79ff;">
     <div class="container"> <!-- to bo zgledalo kot kontejner saj ma to bootstrap zabeleženo -->
       <form class="form-signin" role="form" method="post" action=".">
         <!-- metod je lahko post ali pa get, pri form je navadno post
         action je link, . je klic na trenutno stran, mi smo na strani login-->
-        <h2 class="form-signin-heading">Looking</h2>
+        <h2 class="form-signin-heading">Looking.si</h2>
         <!-- napaka smo prej podali kot parameter v py datoteki -->
         %if napaka: 
         <div class="alert alert-warning">{{napaka}}</div><!-- tu mamo zdaj dva stila alert in alert-warning, to je vse zapisano v bootstrap -->
@@ -49,10 +50,11 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Prijava</button>
         <div>
           <!-- tu je zdaj link, glede na koren gremo na register, in to se zgodi če kliknemo registracija na spletu -->
-          <a href="/register/">Registracija</a>
+          <p> Še nisi registriran? <a href="/register/">Registracija</a> </p>
         </div>
       </form>
     </div> <!-- /container -->
+    </p>
 
 
     <!-- Bootstrap core JavaScript
