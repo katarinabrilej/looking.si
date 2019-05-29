@@ -31,7 +31,7 @@ secret = "to skrivnost je zelo tezko uganiti 1094107c907cw982982c42"
 def password_hash(s):
     """Vrni SHA-512 hash danega UTF-8 niza. Gesla vedno spravimo v bazo
        kodirana s to funkcijo."""
-    h = hashlib.sha512()
+    h = hashlib.md5()
     h.update(s.encode('utf-8'))
     return h.hexdigest()
 
@@ -169,9 +169,9 @@ def login_post():
     # Uporabniško ime, ki ga je uporabnik vpisal v formo
     username = request.forms.username
     # Izračunamo hash gesla, ki ga bomo spravili
-   # geslo = password_hash(request.forms.password)
+    geslo = password_hash(request.forms.password)
 
-    geslo = request.forms.password
+   # geslo = request.forms.password
     # Preverimo, ali se je uporabnik pravilno prijavil
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     cur.execute("SELECT * FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
@@ -228,7 +228,7 @@ def register_post():
         uporabnik = "uporabnik"
         password = password_hash(password1)
         cur.execute("INSERT INTO uporabnik (uporabnisko_ime, ime, priimek, geslo, tip) VALUES (%s, %s, %s, %s, %s)",
-                  (username, ime, priimek, password1, uporabnik))
+                  (username, ime, priimek, password, uporabnik))
         # Daj uporabniku cookie
         response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")
