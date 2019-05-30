@@ -147,11 +147,11 @@ def main():
     # na praznih mestih povemo kaj moramo not vstavit
     # main html je pod views
     # torej uporabi predlogo main.html, da jo napolni rabis 4 spremenljivke in vrni kot html
-    #return template("main.html",
-    #                       ime=ime,
-    #                       username=username,
-    #                       sporocilo=sporocilo)
-    return "glavna stran"
+    return template("base2.html",
+                           ime=ime,
+                           username=username,
+                           sporocilo=sporocilo)
+    #return "glavna stran"
 #obstaja večov tipov zahtevkov v protokolu http, get, post, delete, put,...
 #get request -> če samo gremo na ta link
 #post request, če moramo kam it na strežnik in nek gumb pritisnit
