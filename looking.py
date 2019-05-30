@@ -183,13 +183,13 @@ def login_post():
                                username=username)
     else:
         # Vse je v redu, nastavimo cookie in preusmerimo na glavno stran
-        response.set_cookie('uporabnisko_ime', username, path='/', secret=secret)
+        response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")
 
 @get("/logout/")
 def logout():
     """Pobriši cookie in preusmeri na login."""
-    response.delete_cookie('uporabnisko_ime')
+    response.delete_cookie('username')
     redirect('/login/')
 
 @get("/register/")
@@ -223,6 +223,15 @@ def register_post():
                                username=username,
                                ime=ime,
                                napaka='Gesli se ne ujemata')
+    elif username == 'katarinabrilej' or username == 'evadezelak':
+        # Vse je v redu, vstavi novega uporabnika v bazo
+        uporabnik = "administrator"
+        password = password_hash(password1)
+        cur.execute("INSERT INTO uporabnik (uporabnisko_ime, ime, priimek, geslo, tip) VALUES (%s, %s, %s, %s, %s)",
+                  (username, ime, priimek, password, uporabnik))
+         # Daj uporabniku cookie
+        response.set_cookie('username', username, path='/', secret=secret)
+        redirect("/")
     else:
         # Vse je v redu, vstavi novega uporabnika v bazo
         uporabnik = "uporabnik"

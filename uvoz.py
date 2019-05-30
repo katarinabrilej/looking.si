@@ -129,10 +129,6 @@ cur.execute("INSERT INTO Ima VALUES (5, 7)")
 cur.execute("DROP TABLE IF EXISTS Uporabnik CASCADE")
 cur.execute("""CREATE TABLE Uporabnik (Id SERIAL PRIMARY KEY, Ime TEXT, Priimek TEXT,
 Uporabnisko_ime TEXT, Geslo TEXT, Tip TEXT)""")
-cur.execute("""INSERT INTO Uporabnik (Ime, Priimek, Uporabnisko_ime, Geslo, Tip) VALUES 
-('Katarina', 'Brilej', 'katybrilej', '12345', 'administrator')""")
-cur.execute("""INSERT INTO Uporabnik (Ime, Priimek, Uporabnisko_ime, Geslo, Tip) VALUES 
-('Eva', 'Deželak', 'evadezelak', '6789', 'administrator')""")
 
 cur.execute("DROP TABLE IF EXISTS Oceni CASCADE")
 cur.execute("""CREATE TABLE Oceni(Datum DATE, Mnenje TEXT, Vrednost INT,
