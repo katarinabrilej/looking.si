@@ -20,6 +20,7 @@ debug(True)
 
 #Mapa s statičnimi datotekami
 static_dir = "./static"
+hotel_dir = "./hotel"
 
 #piškotki
 secret = "to skrivnost je zelo tezko uganiti 1094107c907cw982982c42"
@@ -127,14 +128,22 @@ def get_user(auto_login = True):
 def krena():
     return "Živjo"
 
-# ??
+
 @route("/static/<filename:path>")
 def static(filename):
     """Splošna funkcija, ki servira vse statične datoteke iz naslova
        /static/..."""
     return static_file(filename, root=static_dir)
 
-# ??
+@route("/hotel/<filename:path>")
+def hotel(filename):
+
+    return static_file(filename, root=hotel_dir)
+
+
+@route("/test/")
+def test():
+    return template("index.html")
 
 @route("/")
 def main():
