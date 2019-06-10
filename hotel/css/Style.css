@@ -1,13 +1,13 @@
 #checkbox-dropdown-container {
-	background: #99d3de;
+	background: #f3b089;
 	padding: 20px;
 }
 .custom-select {
     background: #FFF url(downward-arrow.png) no-repeat center right 10px;
     display: inline-block;
     padding: 5px 15px;
-    border: #80b2bb 1px solid;
-    color: #3892a2;
+    border: #df884f 1px solid;
+    color: #df884f; 
     border-radius: 2px;
     width: 100%;
     cursor:pointer;
@@ -15,16 +15,16 @@
 }
 div#custom-select-option-box {
     background: #FFF;
-    border: #80b2bb 1px solid;
-    color: #3892a2;
+    border: #df884f 1px solid;
+    color: #df884f;
     border-radius: 2px;
     width: 100%;
     z-index:1;
     display:none;
 }
 button.search.btn {
-   	background: #4c4c4c;
-    border: #353535 1px solid;
+   	background: #df884f;
+    border: #000000 1px solid;
     color: #ffffff;
     border-radius: 2px;
     padding: 8px 40px;
@@ -42,12 +42,12 @@ button.search.btn {
 }
 .result-list {
     padding-bottom: 20px;
-    color: #4d4d4d;
+    color: #000000;
     line-height: 25px;
 }
 .result-list-heading {
     font-style: italic;
-    color: #717171;
+    color: #000000;
     text-decoration: underline;
 }
  
@@ -56,7 +56,7 @@ canvas
     border:2px solid #f10000;
     }
 h1 {
-    color: #1d91d0;
+    color: #df884f;
     font-size:50px;
     text-align: center;
     margin: 0;

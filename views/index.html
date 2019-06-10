@@ -141,33 +141,17 @@
                         </h1>
                         <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="600ms">Izberi svoje sanjske počitnice </p>
                         
-                            <select name="drzave">
-                                %for (ime_drzave) in drzave:
-                                <option value={{ime_drzave}}>{{ime_drzave}}</option>
-                                %end
-                            </select>
-                            
+                        <div class="container">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"id="dropdownMenuButton" data-toggle="dropdown">
-                                  Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        %for (mesto, drzava, mesto_id, drzava_id) in drzave:
-                                        <a class="dropdown-item" href="/drzava/{{mesto_id}}">{{mesto}}, {{drzava}}</a>
-                                        %end
-        
-                                </div>
-                              </div>
-
-                              <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Izberi mesto
                                     <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="#">HTML</a></li>
-                                      <li><a href="#">CSS</a></li>
-                                      <li><a href="#">JavaScript</a></li>
+                                    <ul class="dropdown-menu dropdown-menu-center">
+                                            %for (mesto, drzava, mesto_id, drzava_id) in drzave:
+                                            <li><a href="/drzava/{{mesto_id}}">{{mesto}}, {{drzava}}</a></li>
+                                            %end
                                     </ul>
-                                  </div>
+                            </div>
+                        </div>
 
                         
                     </div>
