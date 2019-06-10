@@ -9,7 +9,8 @@
 		<!-- CSS
         ================================================ -->
         <!-- Owl Carousel -->
-		<link rel="stylesheet" href="/hotel/css/owl.carousel.css">
+        <link rel="stylesheet" href="/hotel/css/owl.carousel.css">
+        <link rel="stylesheet" href="/hotel/css/Style.css">
         <!-- bootstrap.min css -->
 		<link rel="stylesheet" href="/hotel/css/bootstrap.min.css">
         <!-- Font-awesome.min css -->
@@ -30,7 +31,7 @@
     <script src="/hotel/js/plugins.js"></script>
     <script src="/hotel/js/wow.min.js"></script>
     <script src="/hotel/js/main.js"></script>
-    <script src="/hotel/js/popper.min.js"></script>
+    <script src="/hotel/js/jQuery.js"></script>
 	</head>
 	<body>
 	<!--
@@ -66,16 +67,11 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                               <ul class="nav navbar-nav navbar-right" id="top-nav">
-                                <li><a href="#hero-area">Domov</a></li>
+                                <li><a href="/">Domov</a></li>
                                 <li><a href="#about-us">Izbira</a></li>
                                 <li><a href="#blog">Inspiracija</a></li>
-                                %if defined('username'):
-                                <li><a href="#blog">{{username}}</a></li>
-                                <li><a href="/logout/">Odjava</a></li>
-                                %else:
                                 <li><a href="/login/" >Prijava</a></li>
                                 <li><a href="/register/">Registracija</a></li>
-                                %end
                               </ul>
                             </div><!-- /.navbar-collapse -->
                           </div><!-- /.container-fluid -->
@@ -134,44 +130,68 @@
     <section id="about-us">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                     <div class="block">
-                        
-                        <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" >Izberi <span>svoje</span>  sanjske <span>počitnice</span>
-                        </h1>
-                        <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="600ms">Izberi svoje sanjske počitnice </p>
-                        
-                            <select name="drzave">
-                                %for (ime_drzave) in drzave:
-                                <option value={{ime_drzave}}>{{ime_drzave}}</option>
-                                %end
-                            </select>
-                            
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button"id="dropdownMenuButton" data-toggle="dropdown">
-                                  Dropdown button
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        %for (mesto, drzava, mesto_id, drzava_id) in drzave:
-                                        <a class="dropdown-item" href="/drzava/{{mesto_id}}">{{mesto}}, {{drzava}}</a>
-                                        %end
-        
-                                </div>
-                              </div>
+                            <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
-                              <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="#">HTML</a></li>
-                                      <li><a href="#">CSS</a></li>
-                                      <li><a href="#">JavaScript</a></li>
-                                    </ul>
-                                  </div>
+                        <p>Ugodnosti</p>
+                        %for ugodnost in ugodnosti:
+                        <p> {{ugodnost}}</p>
+                        %end
 
+                        %for (lokacija,tip) in lokacije:
+                            %if tip == "Okrožje":
+                            <p> Okrožje </p>
+                            <p> {{lokacija}}</p>
+                            %elif tip == "Znamenitost":
+                            <p> Znamenitost </p>
+                            <p> {{lokacija}}</p>
+                            %elif tip == "Značilnost":
+                            <p> Značilnosti </p>
+                            <p> {{lokacija}}</p>
+                            %end
+                        %end
+
+                       
+
+<div id="checkbox-dropdown-container">
+		<form id="fromCustomSelect" name="fromCustomSelect" action=""
+			method="post">
+			<div>
+
+        		<div class="result-list">
+            			<div class="result-list-heading">Ugodnosti: </div>
+        		</div>
+  
+				<div class="custom-select" id="custom-select">Izberi ugodnosti</div>
+				<div id="custom-select-option-box">
+					<div class="custom-select-option">
+						<input 
+							class="custom-select-option-checkbox" type="checkbox"
+							value="ha"> Wordpress
+					</div>
+				</div>
+            </div>
+            
+			<button type="submit" class="search btn" >Submit</button>
+		</form>
+    </div>
+    
                         
                     </div>
                 </div><!-- .col-md-12 close -->
+                <div class="col-md-8">
+                        <div class="block">
+                            
+                            <p> {{mesto}}</p>
+                            %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
+                            <p> {{ime}}</p>
+                            <p> Število zvezdic: {{st_zvezdic}}</p>
+                            <p> Tip nastanitve: {{tip_nastanitve}}</p>
+                            %end
+                            
+                        </div>
+                    </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
         </div><!-- .containe close -->
     </section><!-- #call-to-action close -->
@@ -246,7 +266,8 @@
             </div><!-- .row close -->
         </div><!-- .containe close -->
     </section><!-- #blog close -->
-    <!--
+
+
                
 	</body>
 </html>

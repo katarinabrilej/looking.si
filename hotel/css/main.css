@@ -51,6 +51,8 @@ a:active {
   font-size: 15px;
 }
 /*============== Mixins style start ================*/
+
+
 .overlay-effect {
   content: "";
   position: absolute;

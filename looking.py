@@ -94,7 +94,7 @@ def pretty_date(time):
 
 
 #najpomebnejša funkcija
-def get_user(auto_login = True):
+def get_user():
     """Poglej cookie in ugotovi, kdo je prijavljeni uporabnik,
        vrni njegov username in ime. Če ni prijavljen, presumeri
        na stran za prijavo ali vrni None (advisno od auto_login).
@@ -109,12 +109,10 @@ def get_user(auto_login = True):
         if r is not None:
             # uporabnik obstaja, vrnemo njegove podatke
             # če smo te našli v bazi te vrnemo
-            return r
+            return username
     # Če pridemo do sem, uporabnik ni prijavljen, naredimo redirect
     # če v cookiju nismo ugotovili kdo smo, te da na login stran
     # zdaj preusmerimo na login, saj ni vrnilo username
-    if auto_login:
-        redirect('/login/')
     else:
         return None
     # get user torej naredi dve stvari
@@ -123,10 +121,26 @@ def get_user(auto_login = True):
 
 ######################################################################
 # Funkcije, ki obdelajo zahteve odjemalcev.
+def clean(list):
+    cleaned = []
+    for x in list:
+        strip = x[0].strip()
+        cleaned.append(strip)
+    return cleaned
 
-@route("/zivjo/")
-def krena():
-    return "Živjo"
+def clean2(list):
+    cleaned = []
+    for x in list:
+        strip1 = x[0].strip()
+        strip2 = x[1]
+        cleaned.append([strip1,strip2])
+    return cleaned
+
+    
+def drzave():
+    cur.execute("SELECT ime_mesta, ime_drzave,  mesto.id ,drzava.id FROM drzava JOIN mesto ON drzava.id = drzava_id ORDER BY ime_mesta")
+    drzave = cur.fetchall()
+    return drzave
 
 
 @route("/static/<filename:path>")
@@ -137,29 +151,63 @@ def static(filename):
 
 @route("/hotel/<filename:path>")
 def hotel(filename):
-
     return static_file(filename, root=hotel_dir)
 
 
-@route("/test/")
-def test():
-    return template("index.html")
-
-@route("/")
+@get("/")
 def main():
-    """Glavna stran."""
-    (username, ime) = get_user() 
-    # Morebitno sporočilo za uporabnika
+    username = get_user() 
+    drzave_seznam = drzave()
     sporocilo = get_sporocilo()
+    return template("index.html", drzave=drzave_seznam,
+                           username=username,
+                           sporocilo=sporocilo)
+
+@post("/")
+def main_2():
+    username = get_user() 
+    drzave_seznam = drzave()
+    sporocilo = get_sporocilo()
+    if username is Nsone:
+        response.delete_cookie('username')
+    return template("index.html", drzave=drzave_seznam,
+                           username=username,
+                           sporocilo=sporocilo)
+
+
+@get("/drzava/:x")
+def drzave_hoteli(x):
+    cur.execute("SELECT ime_mesta FROM mesto WHERE id = %s", [x])
+    mesto = cur.fetchall()
+    mesto = mesto[0][0]
+    cur.execute("SELECT ime_ugodnosti FROM ugodnosti ORDER BY ime_ugodnosti")
+    ugodnosti = cur.fetchall()
+    ugodnosti = clean(ugodnosti)
+    cur.execute("SELECT  ime_lokacije, tip, mesto.id FROM lokacije JOIN mesto ON mesto_id = mesto.id WHERE mesto.id = %s", [x])
+    lokacije = cur.fetchall()
+    lokacije = clean2(lokacije)
+    cur.execute("SELECT ime, hotel.id, st_zvezdic, tip_nastanitve, mesto.id FROM hotel JOIN mesto ON  mesto.id = mesto_id WHERE mesto.id = %s", [x])
+    hoteli = cur.fetchall()
+    return template("drzave.html", ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli)
+
+
+
+
+#@route("/")
+#def main():
+ #   """Glavna stran."""
+  #  (username, ime) = get_user() 
+    # Morebitno sporočilo za uporabnika
+   # sporocilo = get_sporocilo()
     # Vrnemo predlogo za glavno stran
     # izriši spletno stran iz predloge, to je pol html pa pol luknje
     # na praznih mestih povemo kaj moramo not vstavit
     # main html je pod views
     # torej uporabi predlogo main.html, da jo napolni rabis 4 spremenljivke in vrni kot html
-    return template("base2.html",
-                           ime=ime,
-                           username=username,
-                           sporocilo=sporocilo)
+    #return template("base2.html",
+     #                      ime=ime,
+      #                     username=username,
+       #                    sporocilo=sporocilo)
     #return "glavna stran"
 #obstaja večov tipov zahtevkov v protokolu http, get, post, delete, put,...
 #get request -> če samo gremo na ta link
@@ -168,7 +216,7 @@ def main():
 @get("/login/")
 def login_get():
     """Serviraj formo za login."""
-    return template("login.html",
+    return template("login2.html",
                           napaka=None,
                          username=None)
 
@@ -187,7 +235,7 @@ def login_post():
                 [username, geslo])
     if cur.fetchone() is None:
         # Username in geslo se ne ujemata
-        return template("login.html",
+        return template("login2.html",
                                napaka="Nepravilna prijava",
                                username=username)
     else:
@@ -252,7 +300,6 @@ def register_post():
         redirect("/")
 
 
-
 ######################################################################
 # Glavni program
 
@@ -263,4 +310,3 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 # poženemo strežnik na portu 8080, glej http://localhost:8080/
 run(host='localhost', port=8080) #,reloader=True)
-
