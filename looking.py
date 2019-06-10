@@ -252,7 +252,7 @@ def logout():
 @get("/register/")
 def login_get():
     """Prikaži formo za registracijo."""
-    return template("register.html", 
+    return template("register2.html", 
                            username=None,
                            ime=None,
                            napaka=None)
@@ -270,13 +270,13 @@ def register_post():
     cur.execute("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s", [username])
     if cur.fetchone():
         # Uporabnik že obstaja
-        return template("register.html",
+        return template("register2.html",
                                username=username,
                                ime=ime,
                                napaka='To uporabniško ime je že zavzeto')
     elif not password1 == password2:
         # Geslo se ne ujemata
-        return template("register.html",
+        return template("register2.html",
                                username=username,
                                ime=ime,
                                napaka='Gesli se ne ujemata')
