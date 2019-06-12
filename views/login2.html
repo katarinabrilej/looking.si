@@ -85,6 +85,9 @@
                             <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Prijavite se v <span>najboljši iskalnik hotelov!</span> </h3>
                             <form class="form-signin" role="form" method="post" action=".">
                                 <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                        %if napaka: 
+                                        <div class="alert alert-warning">{{napaka}}</div><!-- tu mamo zdaj dva stila alert in alert-warning, to je vse zapisano v bootstrap -->
+                                        %end
                                     <input type="username" class="form-control" placeholder="Uporabniško ime"
                                         %if username:
                                          value="{{username}}"
