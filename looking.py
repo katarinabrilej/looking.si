@@ -192,7 +192,6 @@ def drzave_hoteli(x):
 
 
 
-
 #@route("/")
 #def main():
  #   """Glavna stran."""
@@ -298,6 +297,53 @@ def register_post():
         # Daj uporabniku cookie
         response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")
+
+@get("/uporabnik/")
+def uporabnik(sporocila=[]):
+    sporocilo = get_sporocilo()
+    username = get_user()
+    return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila)
+
+post("/uporabnik/")
+def spremeni():
+    sporocilo = get_sporocilo()
+    username = get_user()
+    # Staro geslo (je obvezno)
+    password1 = password_hash(request.forms.password1)
+    # Preverimo staro geslo
+    cur.execute ("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=? AND geslo=?",
+               [username, password1])
+    # Pokazali bomo eno ali več sporočil, ki jih naberemo v seznam
+    sporocila = []
+    if cur.fetchone():
+        # Geslo je ok
+        # Ali je treba spremeniti geslo?
+        password2 = request.forms.password2
+        password3 = request.forms.password3
+        if password2 or password3:
+            # Preverimo, ali se gesli ujemata
+            if password2 == password3:
+                # Vstavimo v bazo novo geslo
+                password2 = password_hash(password2)
+                c.execute ("UPDATE uporabnik SET geslo=? WHERE uporabnisko_ime = ?", [password2, username])
+                sporocila.append(("alert-success", "Spremenili ste geslo."))
+            else:
+                sporocila.append(("alert-danger", "Gesli se ne ujemata"))
+    else:
+        # Geslo ni ok
+        sporocila.append(("alert-danger", "Napačno staro geslo"))
+    cur.close ()
+    # Prikažemo stran z uporabnikom, z danimi sporočili. Kot vidimo,
+    # lahko kar pokličemo funkcijo, ki servira tako stran
+    return uporabnik(username, sporocila=sporocila)
+
+@get("/dodaj/")
+def dodaj():
+    sporocilo = get_sporocilo()
+    username = get_user()
+    return template("dodaj.html", username = username, sporocilo = sporocilo)
+
+
 
 
 ######################################################################
