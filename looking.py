@@ -168,7 +168,7 @@ def main_2():
     username = get_user() 
     drzave_seznam = drzave()
     sporocilo = get_sporocilo()
-    if username is Nsone:
+    if username is None:
         response.delete_cookie('username')
     return template("index.html", drzave=drzave_seznam,
                            username=username,
@@ -242,10 +242,12 @@ def login_post():
         response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")
 
+
+
 @get("/logout/")
 def logout():
     """Pobriši cookie in preusmeri na login."""
-    response.delete_cookie('username')
+    response.delete_cookie('username', path='/')
     redirect('/login/')
 
 @get("/register/")

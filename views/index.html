@@ -3,9 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Restaurant One Page HTML5 Template</title>
+		<title>Looking.si</title>
+        <link rel="shortcut icon" href="/static/favicon.ico">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+        
 		<!-- CSS
         ================================================ -->
         <!-- Owl Carousel -->
@@ -65,12 +67,12 @@
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav navbar-right" id="top-nav">
+                              <ul class="nav navbar-nav navbar-right" >
                                 <li><a href="#hero-area">Domov</a></li>
                                 <li><a href="#about-us">Izbira</a></li>
                                 <li><a href="#blog">Inspiracija</a></li>
-                                %if defined('username'):
-                                <li><a href="#blog">{{username}}</a></li>
+                                %if username is not None:
+                                <li href="/uporabnik/"><a href="/uporabnik/">{{username}}</a></li>
                                 <li><a href="/logout/">Odjava</a></li>
                                 %else:
                                 <li><a href="/login/" >Prijava</a></li>
@@ -224,12 +226,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/login/" role="button">PRIJAVA</a>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/register/" role="button">Registracija</a>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/logout/" role="button">ODJAVA</a>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/uporabnik/" role="button">{{username}}</a>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/dodaj/" role="button">dodaj</a>
-                    </div>
+                           </div>
                 </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
         </div><!-- .containe close -->

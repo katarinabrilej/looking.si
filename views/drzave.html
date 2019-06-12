@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Restaurant One Page HTML5 Template</title>
+		<title>Looking.si</title>
+        <link rel="shortcut icon" href="/static/favicon.ico">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- CSS
@@ -36,12 +37,12 @@
 
     <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
     <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>
 
     <style>
             select {
-              width: 300px;
+              width: 200px;
             }
             </style>
             
@@ -91,9 +92,8 @@
 
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                              <ul class="nav navbar-nav navbar-right" id="top-nav">
+                              <ul class="nav navbar-nav navbar-right" >
                                 <li><a href="/">Domov</a></li>
-                                <li><a href="#about-us">Izbira</a></li>
                                 <li><a href="#blog">Inspiracija</a></li>
                                 <li><a href="/login/" >Prijava</a></li>
                                 <li><a href="/register/">Registracija</a></li>
@@ -115,7 +115,7 @@
                 <div class="col-md-12">
                     <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
                         <div class="title">
-                            <h3>Popularni <span>Hoteli</span></h3>
+                            <h3>Popularni <span>Hoteli</span>
                         </div>
                         <div id="owl-example" class="owl-carousel">
                             <div>
@@ -164,24 +164,6 @@
                         <p> {{ugodnost}}</p>
                         %end
 
-                        %for (lokacija,tip) in lokacije:
-                            %if tip == "Okrožje":
-                            <p> Okrožje </p>
-                            <p> {{lokacija}}</p>
-                            %elif tip == "Znamenitost":
-                            <p> Znamenitost </p>
-                            <p> {{lokacija}}</p>
-                            %elif tip == "Značilnost":
-                            <p> Značilnosti </p>
-                            <p> {{lokacija}}</p>
-                            %end
-                        %end
-
-                        
-
-
-                       
-
 <div id="checkbox-dropdown-container">
 		<form id="fromCustomSelect" name="fromCustomSelect" action="." method="post">
 			<div>
@@ -196,7 +178,61 @@
             </div>           
             <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">POTRDI</button>
 		</form>
-    </div>
+</div>
+
+<div id="checkbox-dropdown-container">
+		<form id="fromCustomSelect" name="fromCustomSelect" action="." method="post">
+			<div>
+        		<div class="result-list">
+            			<div class="result-list-heading">Okrožje: </div>
+        		</div>
+                <select multiple="multiple" placeholder= "Izberi okrožje">
+                        %for (lokacija,tip) in lokacije:
+                             %if tip == "Okrožje":
+                                 <p> <option value="{{lokacija}}">{{lokacija}}</option></p>
+                             %end
+                        %end
+                </select>
+            </div>           
+            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">POTRDI</button>
+		</form>
+</div>
+
+<div id="checkbox-dropdown-container">
+		<form id="fromCustomSelect" name="fromCustomSelect" action="." method="post">
+			<div>
+        		<div class="result-list">
+            			<div class="result-list-heading">Značilnosti: </div>
+        		</div>
+                <select multiple="multiple" placeholder= "Izberi značilnosti">
+                        %for (lokacija,tip) in lokacije:
+                             %if tip == "Značilnost":
+                                 <p> <option value="{{lokacija}}">{{lokacija}}</option></p>
+                             %end
+                        %end
+                </select>
+            </div>           
+            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">POTRDI</button>
+		</form>
+</div>
+
+<div id="checkbox-dropdown-container">
+		<form id="fromCustomSelect" name="fromCustomSelect" action="." method="post">
+			<div>
+        		<div class="result-list">
+            			<div class="result-list-heading">Znamenitosti: </div>
+        		</div>
+                <select multiple="multiple" placeholder= "Izberi znamenitosti">
+                        %for (lokacija,tip) in lokacije:
+                             %if tip == "Znamenitost":
+                                 <p> <option value="{{lokacija}}">{{lokacija}}</option></p>
+                             %end
+                        %end
+                </select>
+            </div>           
+            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">POTRDI</button>
+		</form>
+</div>
     
                         
                     </div>
@@ -281,8 +317,7 @@
                                 </div>
                             </li>
                         </ul>
-                        <a class="btn btn-default btn-more-info wow bounceIn" data-wow-duration="500ms" data-wow-delay="1200ms" href="/login/" role="button">More Info</a>
-                    </div>
+                                        </div>
                 </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
         </div><!-- .containe close -->
