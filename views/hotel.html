@@ -7,11 +7,11 @@
         <link rel="shortcut icon" href="/static/favicon.ico">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-        
 		<!-- CSS
         ================================================ -->
         <!-- Owl Carousel -->
-		<link rel="stylesheet" href="/hotel/css/owl.carousel.css">
+        <link rel="stylesheet" href="/hotel/css/owl.carousel.css">
+        <link rel="stylesheet" href="/hotel/css/Style.css">
         <!-- bootstrap.min css -->
 		<link rel="stylesheet" href="/hotel/css/bootstrap.min.css">
         <!-- Font-awesome.min css -->
@@ -22,6 +22,7 @@
 		<link rel="stylesheet" href="/hotel/css/main.css">
         <!-- Responsive Stylesheet -->
 		<link rel="stylesheet" href="/hotel/css/responsive.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 		<!-- Js -->
     <script src="/hotel/js/vendor/modernizr-2.6.2.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
@@ -32,7 +33,32 @@
     <script src="/hotel/js/plugins.js"></script>
     <script src="/hotel/js/wow.min.js"></script>
     <script src="/hotel/js/main.js"></script>
-    <script src="/hotel/js/popper.min.js"></script>
+    <script src="/hotel/js/jQuery.js"></script>
+
+
+    <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+    <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>
+
+    <style>
+            select {
+              width: 200px;
+            }
+            </style>
+            
+            <script>
+                    $(function() {
+                      $('select').multipleSelect({
+                        selectAll: false,
+                        filter: true,
+      filterPlaceholder: 'Najdi',
+      maxHeight: 140
+                      })
+                    })
+            </script>
+
+            
 	</head>
 	<body>
 	<!--
@@ -68,8 +94,7 @@
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                               <ul class="nav navbar-nav navbar-right" >
-                                <li><a href="#hero-area">Domov</a></li>
-                                <li><a href="#about-us">Izbira</a></li>
+                                <li><a href="/">Domov</a></li>
                                 <li><a href="#blog">Inspiracija</a></li>
                                 %if username is not None:
                                 <li href="/uporabnik/"><a href="/uporabnik/">{{username}}</a></li>
@@ -96,7 +121,7 @@
                 <div class="col-md-12">
                     <div class="block wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
                         <div class="title">
-                            <h3>Popularni <span>Hoteli</span></h3>
+                            <h3>Popularni <span>Hoteli</span>
                         </div>
                         <div id="owl-example" class="owl-carousel">
                             <div>
@@ -130,37 +155,8 @@
             </div><!-- .row close -->
         </div><!-- .container close -->
     </section><!-- slider close -->
-    <!--
-    about-us start
-    ============================== -->
-    <section id="about-us">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block">
-                        
-                        <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" >Izberi <span>svoje</span>  sanjske <span>počitnice</span>
-                        </h1>
-                        <p class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="600ms">Izberi svoje sanjske počitnice </p>
-                        
-                        <div class="container">
-                            <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Izberi mesto
-                                    <span class="caret"></span></button>
-                                    <ul class="dropdown-menu dropdown-menu-center">
-                                            %for (mesto, drzava, mesto_id, drzava_id) in drzave:
-                                            <li><a href="/drzava/{{mesto_id}}">{{mesto}}, {{drzava}}</a></li>
-                                            %end
-                                    </ul>
-                            </div>
-                        </div>
 
-                        
-                    </div>
-                </div><!-- .col-md-12 close -->
-            </div><!-- .row close -->
-        </div><!-- .containe close -->
-    </section><!-- #call-to-action close -->
+    
     <!--
     blog start
     ============================ -->
@@ -231,7 +227,8 @@
             </div><!-- .row close -->
         </div><!-- .containe close -->
     </section><!-- #blog close -->
-    <!--
+
+
                
 	</body>
 </html>

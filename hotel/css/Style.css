@@ -5,7 +5,9 @@
 
 .checked {
     color: orange;
-  }
+}
+
+
 
 .custom-select {
     background: #FFF url(downward-arrow.png) no-repeat center right 10px;
@@ -67,3 +69,22 @@ h1 {
     margin: 0;
     padding-bottom: 25px;
     }
+
+a.link:link{
+    color:#000000;
+    font-size: calc(0.4em + 1vw);
+}
+
+a.link:visited{
+    color:#000000;
+    font-size: calc(0.4em + 1vw);
+}
+a.link:active{
+    color:#000000;
+    font-size: calc(0.4em + 1vw);
+}
+
+a.link:hover{
+    color:#df884f;
+    font-size: calc(0.4em + 1vw);
+}

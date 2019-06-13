@@ -191,7 +191,10 @@ def drzave_hoteli(x):
     hoteli = cur.fetchall()
     return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli)
 
-
+@get("/hotel/")
+def hotel():
+    username = get_user()
+    return template("hotel.html", username=username)
 
 #@route("/")
 #def main():
