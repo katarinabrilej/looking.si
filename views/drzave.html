@@ -22,6 +22,7 @@
 		<link rel="stylesheet" href="/hotel/css/main.css">
         <!-- Responsive Stylesheet -->
 		<link rel="stylesheet" href="/hotel/css/responsive.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
 		<!-- Js -->
     <script src="/hotel/js/vendor/modernizr-2.6.2.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
@@ -55,7 +56,7 @@
       maxHeight: 140
                       })
                     })
-                  </script>
+            </script>
 
             
 	</head>
@@ -95,8 +96,13 @@
                               <ul class="nav navbar-nav navbar-right" >
                                 <li><a href="/">Domov</a></li>
                                 <li><a href="#blog">Inspiracija</a></li>
+                                %if username is not None:
+                                <li href="/uporabnik/"><a href="/uporabnik/">{{username}}</a></li>
+                                <li><a href="/logout/">Odjava</a></li>
+                                %else:
                                 <li><a href="/login/" >Prijava</a></li>
                                 <li><a href="/register/">Registracija</a></li>
+                                %end
                               </ul>
                             </div><!-- /.navbar-collapse -->
                           </div><!-- /.container-fluid -->
@@ -238,16 +244,28 @@
                     </div>
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8">
-                        <div class="block">
+                    %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
+                        <div class="card border-danger mb-3" >
+                            <div class="row">
+                                <div class="col-md-4" style="margin:10px;">
+                                    <img  src="//placehold.it/200" alt="">
+                                </div>
                             
-                            <p> {{mesto}}</p>
-                            %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
-                            <p> {{ime}}</p>
-                            <p> Število zvezdic: {{st_zvezdic}}</p>
-                            <p> Tip nastanitve: {{tip_nastanitve}}</p>
-                            %end
+                                <div class="col-md-6">
+                                    <div class="card-body px-4" style="margin-top:10px;">
+                                        <h3 class="card-title">{{ime}}</h3>
+                                        <p class="card-text">Število zvezdic: {{st_zvezdic}}</p>
+                                        <p class="card-text">Tip nastanitve: {{tip_nastanitve}}</p>
+                                        <a href="#" class="btn btn-primary">Poglej</a>
+                                    </div>
+                                </div>  
+                            </div>  
                             
                         </div>
+                    %end
+                    
+                </div>
+                        
                     </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
         </div><!-- .containe close -->

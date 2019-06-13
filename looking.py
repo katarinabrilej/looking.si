@@ -177,6 +177,7 @@ def main_2():
 
 @get("/drzava/:x")
 def drzave_hoteli(x):
+    username = get_user()
     cur.execute("SELECT ime_mesta FROM mesto WHERE id = %s", [x])
     mesto = cur.fetchall()
     mesto = mesto[0][0]
@@ -188,7 +189,7 @@ def drzave_hoteli(x):
     lokacije = clean2(lokacije)
     cur.execute("SELECT ime, hotel.id, st_zvezdic, tip_nastanitve, mesto.id FROM hotel JOIN mesto ON  mesto.id = mesto_id WHERE mesto.id = %s", [x])
     hoteli = cur.fetchall()
-    return template("drzave.html", ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli)
+    return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli)
 
 
 
