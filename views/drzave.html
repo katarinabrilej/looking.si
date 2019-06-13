@@ -37,7 +37,7 @@
 
 
     <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
     <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>
 
@@ -165,11 +165,11 @@
                     <div class="block">
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
-                        <p>Ugodnosti</p>
+                       <!-- <p>Ugodnosti</p>
                         %for ugodnost in ugodnosti:
                         <p> {{ugodnost}}</p>
-                        %end
-
+                        %end 
+                    -->
 <div id="checkbox-dropdown-container">
 		<form id="fromCustomSelect" name="fromCustomSelect" action="." method="post">
 			<div>
@@ -244,6 +244,7 @@
                     </div>
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8">
+                <h5>Razvrsti po abecedi</h5>
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
                         <div class="card border-danger mb-3" >
                             <div class="row">
@@ -254,7 +255,31 @@
                                 <div class="col-md-6">
                                     <div class="card-body px-4" style="margin-top:10px;">
                                         <h3 class="card-title">{{ime}}</h3>
-                                        <p class="card-text">Število zvezdic: {{st_zvezdic}}</p>
+                                        %if st_zvezdic == 5:
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        %end
+                                        %if st_zvezdic == 4:
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        %end
+                                        %if st_zvezdic == 3:
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        %end
+                                        %if st_zvezdic == 2:
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        %end
+                                        %if st_zvezdic == 1:
+                                            <span class="fa fa-star checked"></span>
+                                        %end
                                         <p class="card-text">Tip nastanitve: {{tip_nastanitve}}</p>
                                         <a href="#" class="btn btn-primary">Poglej</a>
                                     </div>

@@ -2,6 +2,11 @@
 	background: #f3b089;
 	padding: 20px;
 }
+
+.checked {
+    color: orange;
+  }
+
 .custom-select {
     background: #FFF url(downward-arrow.png) no-repeat center right 10px;
     display: inline-block;
