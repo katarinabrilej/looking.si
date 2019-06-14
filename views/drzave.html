@@ -165,12 +165,57 @@
                     <div class="block">
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
-                       <!-- <p>Ugodnosti</p>
-                        %for ugodnost in ugodnosti:
-                        <p> {{ugodnost}}</p>
-                        %end 
-                    -->
-
+                        
+<div class="form-check">
+    <div class="result-list">
+            <div class="result-list-heading">Zvezdice: </div>
+    </div>
+    %for zvezdica in zvezdice:
+        <div class="row">
+            <input class="form-check-input" type="checkbox" value="{{zvezdica}}">
+            <label class="form-check-label" >
+                 %if zvezdica == 5:
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                %end
+                %if zvezdica == 4:
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                %end
+                %if zvezdica == 3:
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                %end
+                %if zvezdica == 2:
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                %end
+                %if zvezdica == 1:
+                    <span class="fa fa-star checked"></span>
+                %end
+            </label>
+        </div>
+    %end
+</div>
+<div class="form-check">
+    <div class="result-list">
+            <div class="result-list-heading">Tip nastanitve: </div>
+    </div>
+    %for nastanitev in nastanitve:
+        <div class="row">
+            <input class="form-check-input" type="checkbox" value="{{nastanitev}}">
+            <label class="form-check-label" >
+                {{nastanitev}}
+            </label>
+        </div>
+    %end
+</div>
 <div class="form-check">
     <div class="result-list">
             <div class="result-list-heading">Ugodnosti: </div>
@@ -179,7 +224,7 @@
         <div class="row">
             <input class="form-check-input" type="checkbox" value="{{ugodnost}}">
             <label class="form-check-label" >
-                {{ugodnost}}
+                {{ugodnost[1]}}
             </label>
         </div>
     %end
@@ -187,7 +232,7 @@
 <div class="form-check">
    
     %flag = "true" 
-    %for (lokacija,tip) in lokacije:
+    %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Okrožje":
             %if flag == "true":
              <div class="result-list">
@@ -207,7 +252,7 @@
 <div class="form-check">
     
     %flag = "true" 
-    %for (lokacija,tip) in lokacije:
+    %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Značilnost":
             %if flag == "true":
             <div class="result-list">
@@ -227,7 +272,7 @@
 <div class="form-check">
     
     %flag = "true" 
-    %for (lokacija,tip) in lokacije:
+    %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Znamenitost":
             %if flag == "true":
                 <div class="result-list">
@@ -244,6 +289,8 @@
         %end
     %end
 </div>
+<br>
+<button class="btn btn-default wow" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">Potrdi</button>
                       
             </div>
                 </div><!-- .col-md-12 close -->
@@ -284,6 +331,38 @@
                                             <span class="fa fa-star checked"></span>
                                         %end
                                         <p class="card-text">Tip nastanitve: {{tip_nastanitve}}</p>
+                                        %for ugodnost_hotel in ugodnosti_hoteli:                                            
+                                            %if ugodnost_hotel[0] == hotel_id:                                                
+                                                %for ugodnost in ugodnosti:
+                                                    %if ugodnost[0] == ugodnost_hotel[1]:
+                                                        <p class="card-text" hidden>{{ugodnost[1]}}</p>
+                                                    %end
+                                                %end
+                                            %end
+                                        %end
+                                        %for na_lokacija in na_lokaciji:
+                                            %if na_lokacija[0] == hotel_id:
+                                                %for (id,lokacija,tip,mesto_id) in lokacije:
+                                                    %if tip == "Okrožje":
+                                                        %if na_lokacija[1] == id:
+                                                            <p class="card-text" hidden>{{lokacija}}</p>
+                                                        %end
+                                                    %end
+                                                    %if tip == "Znamenitost":
+                                                        %if na_lokacija[1] == id:
+                                                            <p class="card-text" hidden>{{lokacija}}</p>
+                                                        %end
+                                                    %end
+                                                    %if tip == "Značilnost":
+                                                        %if na_lokacija[1] == id:
+                                                            <p class="card-text" hidden>{{lokacija}}</p>
+                                                        %end
+                                                    %end
+                                                %end
+                                            %end
+                                        %end
+                                       
+                                        
                                       </div>
                                 </div>  
                             </div>  

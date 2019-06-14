@@ -136,6 +136,12 @@ def clean2(list):
         cleaned.append([strip1,strip2])
     return cleaned
 
+def clean3(list):
+    cleaned = []
+    for x in list:
+        cleaned.append(x[0])
+    return cleaned
+
     
 def drzave():
     cur.execute("SELECT ime_mesta, ime_drzave,  mesto.id ,drzava.id FROM drzava JOIN mesto ON drzava.id = drzava_id ORDER BY ime_mesta")
@@ -178,18 +184,31 @@ def main_2():
 @get("/drzava/:x")
 def drzave_hoteli(x):
     username = get_user()
+    cur.execute("SELECT hotel_id, lokacija_id FROM na_lokaciji")
+    na_lokaciji = cur.fetchall()
+    cur.execute("SELECT hotel, ugodnost FROM ima")
+    ugodnosti_hoteli = cur.fetchall()
     cur.execute("SELECT ime_mesta FROM mesto WHERE id = %s", [x])
     mesto = cur.fetchall()
     mesto = mesto[0][0]
-    cur.execute("SELECT ime_ugodnosti FROM ugodnosti ORDER BY ime_ugodnosti")
+    cur.execute("SELECT id, ime_ugodnosti FROM ugodnosti ORDER BY ime_ugodnosti")
     ugodnosti = cur.fetchall()
-    ugodnosti = clean(ugodnosti)
-    cur.execute("SELECT  ime_lokacije, tip, mesto.id FROM lokacije JOIN mesto ON mesto_id = mesto.id WHERE mesto.id = %s", [x])
+    cur.execute("SELECT  lokacije.id,ime_lokacije, tip, mesto.id FROM lokacije JOIN mesto ON mesto_id = mesto.id WHERE mesto.id = %s", [x])
     lokacije = cur.fetchall()
-    lokacije = clean2(lokacije)
+    #lokacije = clean2(lokacije)
     cur.execute("SELECT ime, hotel.id, st_zvezdic, tip_nastanitve, mesto.id FROM hotel JOIN mesto ON  mesto.id = mesto_id WHERE mesto.id = %s", [x])
     hoteli = cur.fetchall()
-    return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli)
+    cur.execute("SELECT st_zvezdic, mesto_id FROM hotel WHERE mesto_id =%s", [x])
+    zvezdice = cur.fetchall()
+    zvezdice = clean3(zvezdice)
+    zvezdice = set(zvezdice)
+    zvezdice = list(zvezdice)
+    cur.execute("SELECT tip_nastanitve, mesto_id FROM hotel WHERE mesto_id =%s", [x])
+    nastanitve = cur.fetchall()
+    nastanitve = clean(nastanitve)
+    nastanitve = set(nastanitve)
+    nastanitve = list(nastanitve)
+    return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
 
 @get("/hotel/")
 def hotel():
