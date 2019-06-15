@@ -48,51 +48,6 @@ def get_sporocilo():
     response.delete_cookie('message')
     return sporocilo
 
-# To smo dobili na http://stackoverflow.com/questions/1551382/user-friendly-time-format-in-python
-# in predelali v slovenščino. Da se še izboljšati, da bo pravilno delovala dvojina itd.
-def pretty_date(time):
-    """
-    Predelaj čas (v formatu Unix epoch) v opis časa, na primer
-    'pred 4 minutami', 'včeraj', 'pred 3 tedni' ipd.
-    """
-
-    now = datetime.now()
-    if type(time) is int:
-        diff = now - datetime.fromtimestamp(time)
-    elif isinstance(time,datetime):
-        diff = now - time 
-    elif not time:
-        diff = now - now
-    second_diff = diff.seconds
-    day_diff = diff.days
-
-    if day_diff < 0:
-        return ''
-
-    if day_diff == 0:
-        if second_diff < 10:
-            return "zdaj"
-        if second_diff < 60:
-            return "pred " + str(second_diff) + " sekundami"
-        if second_diff < 120:
-            return  "pred minutko"
-        if second_diff < 3600:
-            return "pred " + str( second_diff // 60 ) + " minutami"
-        if second_diff < 7200:
-            return "pred eno uro"
-        if second_diff < 86400:
-            return "pred " + str( second_diff // 3600 ) + " urami"
-    if day_diff == 1:
-        return "včeraj"
-    if day_diff < 7:
-        return "pred " + str(day_diff) + " dnevi"
-    if day_diff < 31:
-        return "pred " + str(day_diff//7) + " tedni"
-    if day_diff < 365:
-        return "pred " + str(day_diff//30) + " meseci"
-    return "pred " + str(day_diff//365) + " leti"
-
-
 #najpomebnejša funkcija
 def get_user():
     """Poglej cookie in ugotovi, kdo je prijavljeni uporabnik,
@@ -169,18 +124,6 @@ def main():
                            username=username,
                            sporocilo=sporocilo)
 
-@post("/")
-def main_2():
-    username = get_user() 
-    drzave_seznam = drzave()
-    sporocilo = get_sporocilo()
-    if username is None:
-        response.delete_cookie('username')
-    return template("index.html", drzave=drzave_seznam,
-                           username=username,
-                           sporocilo=sporocilo)
-
-
 @get("/drzava/:x")
 def drzave_hoteli(x):
     username = get_user()
@@ -214,26 +157,6 @@ def drzave_hoteli(x):
 def hotel():
     username = get_user()
     return template("hotel.html", username=username)
-
-#@route("/")
-#def main():
- #   """Glavna stran."""
-  #  (username, ime) = get_user() 
-    # Morebitno sporočilo za uporabnika
-   # sporocilo = get_sporocilo()
-    # Vrnemo predlogo za glavno stran
-    # izriši spletno stran iz predloge, to je pol html pa pol luknje
-    # na praznih mestih povemo kaj moramo not vstavit
-    # main html je pod views
-    # torej uporabi predlogo main.html, da jo napolni rabis 4 spremenljivke in vrni kot html
-    #return template("base2.html",
-     #                      ime=ime,
-      #                     username=username,
-       #                    sporocilo=sporocilo)
-    #return "glavna stran"
-#obstaja večov tipov zahtevkov v protokolu http, get, post, delete, put,...
-#get request -> če samo gremo na ta link
-#post request, če moramo kam it na strežnik in nek gumb pritisnit
 
 @get("/login/")
 def login_get():
@@ -362,11 +285,11 @@ def spremeni():
     # lahko kar pokličemo funkcijo, ki servira tako stran
     return uporabnik(username, sporocila=sporocila)
 
-@get("/dodaj/")
-def dodaj():
+@get("/admin/")
+def admin():
     sporocilo = get_sporocilo()
     username = get_user()
-    return template("dodaj.html", username = username, sporocilo = sporocilo)
+    return template("admin.html", username = username, sporocilo = sporocilo)
 
 
 
