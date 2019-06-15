@@ -124,32 +124,55 @@
                             <h3>Popularne <span>Plaže</span>
                         </div>
                         <div id="owl-example" class="owl-carousel">
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-1p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-1p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">The Beverly Hills Hotel</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-2p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-2p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">Eurostars Panama City</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-3p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-3p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">Hilton Berlin</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-4p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-4p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">Grand Hotel Costa Rica</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-5p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-5p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">The Royal Hawaiian</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-6p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-6p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">The London NYC</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-7p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-7p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">Waldorf Astoria New York</div>
+                                </div>
                             </div>
-                            <div>
-                                <img class="img-responsive" src="/hotel/images/slider/slider-img-8p.jpg" alt="">
+                            <div class="containerImg">
+                                <img class="img-responsive image" src="/hotel/images/slider/slider-img-8p.jpg" alt="">
+                                <div class="overlay">
+                                    <div class="text">Hilton Hawaiian Village</div>
+                                </div>
                             </div>
                         
-                        </div>
                     </div>
                 </div><!-- .col-md-12 close -->
             </div><!-- .row close -->
@@ -166,14 +189,14 @@
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
                         
-<div class="form-check">
+<div class="form-check" id="filter">
     <div class="result-list">
             <div class="result-list-heading">Zvezdice: </div>
     </div>
     %for zvezdica in zvezdice:
         <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{zvezdica}}">
-            <label class="form-check-label" >
+            <input class="form-check-input" type="checkbox" value="{{zvezdica}}" id="{{zvezdica}}">
+            <label class="form-check-label" for="{{zvezdica}}">
                  %if zvezdica == 5:
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
@@ -202,34 +225,31 @@
             </label>
         </div>
     %end
-</div>
-<div class="form-check">
+
     <div class="result-list">
             <div class="result-list-heading">Tip nastanitve: </div>
     </div>
     %for nastanitev in nastanitve:
         <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{nastanitev}}">
-            <label class="form-check-label" >
+            <input class="form-check-input" type="checkbox" value="{{nastanitev}}" id="{{nastanitev}}">
+            <label class="form-check-label" for="{{nastanitev}}" >
                 {{nastanitev}}
             </label>
         </div>
     %end
-</div>
-<div class="form-check">
+
     <div class="result-list">
             <div class="result-list-heading">Ugodnosti: </div>
     </div>
     %for ugodnost in ugodnosti:
         <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{ugodnost}}">
-            <label class="form-check-label" >
+            <input class="form-check-input" type="checkbox" value="{{ugodnost[1]}}" id="{{ugodnost[1]}}">
+            <label class="form-check-label" for="{{ugodnost[1]}}">
                 {{ugodnost[1]}}
             </label>
         </div>
     %end
-</div>
-<div class="form-check">
+
    
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
@@ -241,15 +261,14 @@
             %flag = "false" 
             %end
             <div class="row">
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}">
-                <label class="form-check-label" >
+                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <label class="form-check-label" for="{{lokacija}}" >
                     {{lokacija}}
                 </label>
             </div>
         %end
     %end
-</div>
-<div class="form-check">
+
     
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
@@ -261,15 +280,14 @@
                 %flag = "false"
             %end
             <div class="row">
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}">
-                <label class="form-check-label" >
+                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <label class="form-check-label" for="{{lokacija}}">
                     {{lokacija}}
                 </label>
             </div>
         %end
     %end
-</div>
-<div class="form-check">
+
     
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
@@ -281,8 +299,8 @@
             % flag = "false"   
             %end
             <div class="row">
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}">
-                <label class="form-check-label" >
+                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <label class="form-check-label" for="{{lokacija}}" >
                     {{lokacija}}
                 </label>
             </div>
