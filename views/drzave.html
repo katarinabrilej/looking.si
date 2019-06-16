@@ -48,14 +48,72 @@
             </style>
             
             <script>
-                    $(function() {
+                    $(document).ready(function() {
                       $('select').multipleSelect({
                         selectAll: false,
                         filter: true,
-      filterPlaceholder: 'Najdi',
-      maxHeight: 140
-                      })
-                    })
+                        filterPlaceholder: 'Najdi',
+                        maxHeight: 140
+                      });
+                      var cardBody = null;
+                      var cardBodyParents = null;
+
+                      cardBody = $(".card-body").find("div").map(function(){
+                          return $(this).attr('class');
+                      }).get();
+                      console.log(cardBody);
+
+                      cardBodyParents = $(".card-body").find("div").map(function(){
+                          return $(this).parent().closest('div').attr('id');
+                      }).get();
+                      console.log(cardBodyParents);
+
+                      var isChecked = $(".form-check-input:checkbox:checked").map(function(){
+                           return $(this).val();
+                        }).get();
+
+                    for(filter in isChecked){
+                        for(var i = 0; i < cardBody.length; i++){
+                            if(isChecked[filter] == cardBody[i]){
+                                console.log(isChecked[filter] + " "+ cardBodyParents[i])
+                                $('.'+cardBodyParents[i]).show();
+                                
+                            }
+                        }
+                    }
+                    if(isChecked.length == 0)$(".card").show();
+
+                      $(".form-check-input:checkbox").click(function(){
+                           isChecked = $(".form-check-input:checkbox:checked").map(function(){
+                           return $(this).val();
+                            }).get();
+                            console.log(isChecked);
+                            if(cardBody != null)
+                            console.log(cardBody);
+                            if(cardBodyParents != null)
+                            console.log(cardBodyParents);
+                            var checkFlag = false;
+                            for(filter in isChecked){
+                                for(var i = 0; i < cardBody.length; i++){
+                                     
+                                    if(isChecked[filter] == cardBody[i]){
+                                        console.log(isChecked[filter] + " " + cardBodyParents[i])
+                                        $( '.'+cardBodyParents[i] ).show();
+                                        checkFlag = true;
+                                    
+                                        if(checkFlag == false)
+                                        $( '.'+cardBodyParents[i] ).hide(); 
+                                    
+                                }
+                            }
+                            if(isChecked.length == 0)$(".card").show();
+
+                      });
+                      console.log(isChecked);
+                      
+                
+                    });
+                   
             </script>
 
             
@@ -127,49 +185,49 @@
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-1p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">The Beverly Hills Hotel</div>
+                                    <div class="text">Cabo San Lucas</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-2p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Eurostars Panama City</div>
+                                    <div class="text">O'ahu</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-3p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Hilton Berlin</div>
+                                    <div class="text">Bali</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-4p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Grand Hotel Costa Rica</div>
+                                    <div class="text">Aruba</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-5p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">The Royal Hawaiian</div>
+                                    <div class="text">Big Island</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-6p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">The London NYC</div>
+                                    <div class="text">Waikiki beach</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-7p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Waldorf Astoria New York</div>
+                                    <div class="text">Moorea</div>
                                 </div>
                             </div>
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-8p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Hilton Hawaiian Village</div>
+                                    <div class="text">Bora bora</div>
                                 </div>
                             </div>
                         
@@ -189,7 +247,7 @@
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
                         
-<div class="form-check" id="filter">
+<div class="form-check" id="filters" >
     <div class="result-list">
             <div class="result-list-heading">Zvezdice: </div>
     </div>
@@ -314,46 +372,61 @@
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8">
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
-                        <div class="card border-danger mb-3" >
+                        <div class="card border-danger mb-3 hotel_{{hotel_id}}" >
                             <div class="row">
                                 <div class="col-md-4" style="margin:10px;">
                                     <img  src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
                                 </div>
                             
                                 <div class="col-md-6">
-                                    <div class="card-body px-4" style="margin-top:10px;">
+                                    <div id="hotel_{{hotel_id}}"class="card-body px-4" style="margin-top:10px;">
                                         <h2 class="card-title link"><a href="/hotel/" class="link">{{ime}}</a></h2>
                                         %if st_zvezdic == 5:
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
+                                        <div class="5" id="5">        
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                                <span class="fa fa-star checked"></span>
+                                        </div>
                                         %end
                                         %if st_zvezdic == 4:
+                                        <div class="4" id="4">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
+                                        </div>
                                         %end
                                         %if st_zvezdic == 3:
+                                        <div class="3" id="3">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
+                                        </div>
                                         %end
                                         %if st_zvezdic == 2:
+                                        <div class="2" id="2">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
+                                        </div>
                                         %end
                                         %if st_zvezdic == 1:
+                                        <div class="1" id="1">
                                             <span class="fa fa-star checked"></span>
+                                        </div>
                                         %end
-                                        <p class="card-text">Tip nastanitve: {{tip_nastanitve}}</p>
+                                        <div class="{{tip_nastanitve}}">
+                                            <p class="card-text ">Tip nastanitve: {{tip_nastanitve}}</p>
+                                        </div>
                                         %for ugodnost_hotel in ugodnosti_hoteli:                                            
                                             %if ugodnost_hotel[0] == hotel_id:                                                
                                                 %for ugodnost in ugodnosti:
                                                     %if ugodnost[0] == ugodnost_hotel[1]:
-                                                        <p class="card-text" hidden>{{ugodnost[1]}}</p>
+                                                    <div class="{{ugodnost[1]}}"
+                                                            <p class="card-text {{ugodnost[1]}}" hidden>{{ugodnost[1]}}</p>
+                                                            
+                                                    </div>
                                                     %end
                                                 %end
                                             %end
@@ -363,17 +436,23 @@
                                                 %for (id,lokacija,tip,mesto_id) in lokacije:
                                                     %if tip == "Okrožje":
                                                         %if na_lokacija[1] == id:
+                                                        <div class="{{lokacija}}">
                                                             <p class="card-text" hidden>{{lokacija}}</p>
+                                                        </div>
                                                         %end
                                                     %end
                                                     %if tip == "Znamenitost":
                                                         %if na_lokacija[1] == id:
-                                                            <p class="card-text" hidden>{{lokacija}}</p>
+                                                        <div class="{{lokacija}}">
+                                                            <p class="card-text {{lokacija}}" hidden>{{lokacija}}</p>
+                                                        </div>
                                                         %end
                                                     %end
                                                     %if tip == "Značilnost":
                                                         %if na_lokacija[1] == id:
-                                                            <p class="card-text" hidden>{{lokacija}}</p>
+                                                        <div class="{{lokacija}}">
+                                                            <p class="card-text {{lokacija}}" hidden>{{lokacija}}</p>
+                                                        </div>
                                                         %end
                                                     %end
                                                 %end
