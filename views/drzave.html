@@ -48,6 +48,32 @@
             </style>
             
             <script>
+
+                    function išči() {
+                        // Declare variables
+                        var input, filter, seznam, div, a, i, txtValue;
+                        input = document.getElementById('iskanje');
+                        filter = input.value.toUpperCase();
+                        seznam = document.getElementById("seznam");
+                        div = seznam.getElementsByClassName('card');
+
+                        // Loop through all list items, and hide those who don't match the search query
+                        for (i = 0; i < div.length; i++) {
+                            var div1 = div[i].getElementsByTagName("div")[0];
+                            var div2 = div1.getElementsByTagName("div")[1];
+                            var div3 = div2.getElementsByTagName("div")[0];
+                            var h2 = div3.getElementsByTagName("h2")[0];
+                            a = h2.getElementsByTagName("a")[0]
+                            txtValue = a.textContent || a.innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            div[i].style.display = "";
+                            } else {
+                            div[i].style.display = "none";
+                            }
+                        }
+                    }
+
+
                     $(document).ready(function() {
                       $('select').multipleSelect({
                         selectAll: false,
@@ -83,32 +109,33 @@
                     }
                     if(isChecked.length == 0)$(".card").show();
 
-                      $(".form-check-input:checkbox").click(function(){
-                           isChecked = $(".form-check-input:checkbox:checked").map(function(){
-                           return $(this).val();
-                            }).get();
-                            console.log(isChecked);
-                            if(cardBody != null)
-                            console.log(cardBody);
-                            if(cardBodyParents != null)
-                            console.log(cardBodyParents);
-                            var checkFlag = false;
-                            for(filter in isChecked){
-                                for(var i = 0; i < cardBody.length; i++){
-                                     
-                                    if(isChecked[filter] == cardBody[i]){
-                                        console.log(isChecked[filter] + " " + cardBodyParents[i])
-                                        $( '.'+cardBodyParents[i] ).show();
-                                        checkFlag = true;
-                                    
-                                        if(checkFlag == false)
-                                        $( '.'+cardBodyParents[i] ).hide(); 
-                                    
+                    $(".form-check-input:checkbox").click(function(){
+                        isChecked = $(".form-check-input:checkbox:checked").map(function(){
+                        return $(this).val();
+                        }).get();
+                        console.log(isChecked);
+                        if(cardBody != null)
+                        console.log(cardBody);
+                        if(cardBodyParents != null)
+                        console.log(cardBodyParents);
+                        var checkFlag = false;
+                        for(filter in isChecked){
+                            for(var i = 0; i < cardBody.length; i++){
+                                if(i > 0 && cardBodyParents[i] != cardBodyParents[i-1] &&checkFlag == false ){
+                                    $( '.'+cardBodyParents[i-1] ).hide();
                                 }
+                                if(isChecked[filter] == cardBody[i]){
+                                    console.log(isChecked[filter] + " " + cardBodyParents[i])
+                                    $( '.'+cardBodyParents[i] ).show();
+                                    checkFlag = true;
+                                
+                                }
+                                
+                                
                             }
-                            if(isChecked.length == 0)$(".card").show();
-
-                      });
+                        }
+                        if(isChecked.length == 0)$(".card").show();
+                    });
                       console.log(isChecked);
                       
                 
@@ -227,7 +254,7 @@
                             <div class="containerImg">
                                 <img class="img-responsive image" src="/hotel/images/slider/slider-img-8p.jpg" alt="">
                                 <div class="overlay">
-                                    <div class="text">Bora bora</div>
+                                    <div class="text">Bora Bora</div>
                                 </div>
                             </div>
                         
@@ -370,7 +397,9 @@
                       
             </div>
                 </div><!-- .col-md-12 close -->
-                <div class="col-md-8">
+                <div class="col-md-8" id="seznam">
+                    <input id="iskanje" onkeyup="išči()" type="text" placeholder="Išči po imenu..">
+                    <br></br>
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
                         <div class="card border-danger mb-3 hotel_{{hotel_id}}" >
                             <div class="row">
