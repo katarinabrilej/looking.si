@@ -300,15 +300,19 @@
     <section id="about-us">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 filter-container">
                     <div class="block">
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
                         
 <div class="form-check" id="filters" >
-    <div class="result-list">
-            <div class="result-list-heading">Zvezdice: </div>
-    </div>
+    
+        </br>
+        <div class="row">
+            <h4>Zvezdice:</h4>
+            <hr size="30" align="left" width ="75%">
+        </div>
+    
     %for zvezdica in zvezdice:
         <div class="row">
             <input class="form-check-input" type="checkbox" value="{{zvezdica}}" id="{{zvezdica}}">
@@ -342,8 +346,10 @@
         </div>
     %end
 
-    <div class="result-list">
-            <div class="result-list-heading">Tip nastanitve: </div>
+    </br>
+    <div class="row">
+        <h4>Tip nastanitve:</h4>
+        <hr size="30" align="left" width ="75%" color="red">
     </div>
     %for nastanitev in nastanitve:
         <div class="row">
@@ -354,8 +360,10 @@
         </div>
     %end
 
-    <div class="result-list">
-            <div class="result-list-heading">Ugodnosti: </div>
+    </br>
+    <div class="row">
+        <h4>Ugodnosti:</h4>
+        <hr size="30" align="left" width ="75%">
     </div>
     %for ugodnost in ugodnosti:
         <div class="row">
@@ -371,8 +379,10 @@
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Okrožje":
             %if flag == "true":
-             <div class="result-list">
-                <div class="result-list-heading">Okrožje: </div>
+            </br>
+            <div class="row">
+                <h4>Okrožje:</h4>
+                <hr size="30" align="left" width ="75%">
             </div>
             %flag = "false" 
             %end
@@ -390,8 +400,10 @@
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Značilnost":
             %if flag == "true":
-            <div class="result-list">
-                <div class="result-list-heading">Značilnosti: </div>
+            </br>
+            <div class="row">
+                <h4>Značilnosti:</h4>
+                <hr size="30" align="left" width ="75%">
             </div>
                 %flag = "false"
             %end
@@ -409,12 +421,16 @@
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Znamenitost":
             %if flag == "true":
-                <div class="result-list">
-                    <div class="result-list-heading">Znamenitosti: </div>
-                </div>
+            </br>
+            <div class="row">
+                <h4>Znamenitosti:</h4>
+                <hr size="30" align="left" width ="75%">
+            </div>
             % flag = "false"   
             %end
+            
             <div class="row">
+            
                 <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
                 <label class="form-check-label" for="{{lokacija}}" >
                     {{lokacija}}
