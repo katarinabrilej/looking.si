@@ -49,6 +49,17 @@
             
             <script>
 
+                    function urediPoZvezdicah(){
+                        
+                        var elem = $("#seznam").find(".card").sort(zvezdice);
+                        console.log(elem)
+                        $("#seznam").append(elem);
+                    }
+
+                    function zvezdice(a, b) {
+                        return a.id < b.id;
+                    }
+
                     function išči() {
                         // Declare variables
                         var input, filter, seznam, div, a, i, txtValue;
@@ -399,9 +410,11 @@
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8" id="seznam">
                     <input id="iskanje" onkeyup="išči()" type="text" placeholder="Išči po imenu..">
+                    Uredi po: <a class="card-title link" href="javascript:urediPoZvezdicah()" >številu zvezdic</a>,
+                    <a class="card-title link" href="javascript:urediPoAbecedi()" >abecedi</a>
                     <br></br>
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
-                        <div class="card border-danger mb-3 hotel_{{hotel_id}}" >
+                        <div class="card border-danger mb-3 hotel_{{hotel_id}}" id="zvezdice{{st_zvezdic}}" >
                             <div class="row">
                                 <div class="col-md-4" style="margin:10px;">
                                     <img  src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
@@ -411,7 +424,7 @@
                                     <div id="hotel_{{hotel_id}}"class="card-body px-4" style="margin-top:10px;">
                                         <h2 class="card-title link"><a href="/hotel/" class="link">{{ime}}</a></h2>
                                         %if st_zvezdic == 5:
-                                        <div class="5" id="5">        
+                                        <div class="5">        
                                                 <span class="fa fa-star checked"></span>
                                                 <span class="fa fa-star checked"></span>
                                                 <span class="fa fa-star checked"></span>
@@ -420,7 +433,7 @@
                                         </div>
                                         %end
                                         %if st_zvezdic == 4:
-                                        <div class="4" id="4">
+                                        <div class="4">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
@@ -428,20 +441,20 @@
                                         </div>
                                         %end
                                         %if st_zvezdic == 3:
-                                        <div class="3" id="3">
+                                        <div class="3">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                         </div>
                                         %end
                                         %if st_zvezdic == 2:
-                                        <div class="2" id="2">
+                                        <div class="2">
                                             <span class="fa fa-star checked"></span>
                                             <span class="fa fa-star checked"></span>
                                         </div>
                                         %end
                                         %if st_zvezdic == 1:
-                                        <div class="1" id="1">
+                                        <div class="1">
                                             <span class="fa fa-star checked"></span>
                                         </div>
                                         %end

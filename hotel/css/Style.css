@@ -44,9 +44,7 @@ button.search.btn {
     margin: 1px 0px;
     cursor: pointer;
 }
-.custom-select-option:hover {
-    
-}
+
 .result-list {
     padding-bottom: 20px;
     color: #000000;
@@ -125,8 +123,9 @@ a.link:hover{
 
 #iskanje{
     background-image: url('../images/search.png');
-    
+    background-positon:left; 
     background-repeat: no-repeat; 
+    background-attachment: fixed;
     width: 50%; 
     font-size: 16px; 
     padding: 12px 20px 12px 40px; 
