@@ -48,16 +48,36 @@
             </style>
             
             <script>
-
                     function urediPoZvezdicah(){
                         
                         var elem = $("#seznam").find(".card").sort(zvezdice);
-                        console.log(elem)
+                        
                         $("#seznam").append(elem);
                     }
 
                     function zvezdice(a, b) {
                         return a.id < b.id;
+                    }
+                    function zvezdice2(a, b) {
+                        var div1 = a.getElementsByTagName("div")[0];
+                        var div2 = div1.getElementsByTagName("div")[1];
+                        var div3 = div2.getElementsByTagName("div")[0];
+                        var h2 = div3.getElementsByTagName("h2")[0];
+                        a = h2.getElementsByTagName("a")[0]
+                        var div1 = b.getElementsByTagName("div")[0];
+                        var div2 = div1.getElementsByTagName("div")[1];
+                        var div3 = div2.getElementsByTagName("div")[0];
+                        var h2 = div3.getElementsByTagName("h2")[0];
+                        b = h2.getElementsByTagName("a")[0]
+                        if(a.textContent < b.textContent){
+                            console.log(a.textContent + " " + b.textContent)
+                            return -1
+                        }else{console.log(a.textContent + " " + b.textContent);return 1;} 
+                    }
+
+                    function urediPoAbecedi(){
+                         var elem = $("#seznam").find(".card").sort(zvezdice2);
+                         $("#seznam").append(elem);
                     }
 
                     function išči() {
