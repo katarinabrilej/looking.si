@@ -123,16 +123,17 @@ a.link:hover{
 
 #iskanje{
     background-image: url('../images/search.png');
-    background-positon:left; 
+    background-positon:center; 
+    background-size: 40px 40px;
     background-repeat: no-repeat; 
     width: 50%; 
     font-size: 16px; 
-    padding: 12px 20px 12px 40px; 
+    padding: 12px 20px 12px 50px; 
     border: 1px solid #ddd; 
-    margin-bottom: 12px; 
+    margin-bottom: 10px; 
 }
 
-#filters{
+.form-check{
     text-align: left;
     margin-left: 30px;
     

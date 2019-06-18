@@ -34,6 +34,7 @@
     <script src="/hotel/js/wow.min.js"></script>
     <script src="/hotel/js/main.js"></script>
     <script src="/hotel/js/jQuery.js"></script>
+    <script src="/hotel/js/drzave.js"></script>
 
 
     <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
@@ -47,110 +48,7 @@
             }
             </style>
             
-            <script>
-                    function urediPoZvezdicah(){                 
-                        var elem = $("#seznam").find(".card").sort(zvezdice);
-                        $("#seznam").append(elem);
-                    }
-
-                    function zvezdice(a, b) {
-                        return a.id < b.id;
-                    }
-                    function zvezdice2(a, b) {
-                        var div1 = a.getElementsByTagName("div")[0];
-                        var div2 = div1.getElementsByTagName("div")[1];
-                        var div3 = div2.getElementsByTagName("div")[0];
-                        var h2 = div3.getElementsByTagName("h2")[0];
-                        a = h2.getElementsByTagName("a")[0]
-                        var div1 = b.getElementsByTagName("div")[0];
-                        var div2 = div1.getElementsByTagName("div")[1];
-                        var div3 = div2.getElementsByTagName("div")[0];
-                        var h2 = div3.getElementsByTagName("h2")[0];
-                        b = h2.getElementsByTagName("a")[0]
-                        if(a.textContent < b.textContent){
-                            return -1
-                        }else{return 1;} 
-                    }
-
-                    function urediPoAbecedi(){
-                         var elem = $("#seznam").find(".card").sort(zvezdice2);
-                         $("#seznam").append(elem);
-                    }
-
-                    function išči() {
-                        
-                        var input, filter, seznam, div, a, i, txtValue;
-                        input = document.getElementById('iskanje');
-                        filter = input.value.toUpperCase();
-                        seznam = document.getElementById("seznam");
-                        div = seznam.getElementsByClassName('card');
-
-                        for (i = 0; i < div.length; i++) {
-                            var div1 = div[i].getElementsByTagName("div")[0];
-                            var div2 = div1.getElementsByTagName("div")[1];
-                            var div3 = div2.getElementsByTagName("div")[0];
-                            var h2 = div3.getElementsByTagName("h2")[0];
-                            a = h2.getElementsByTagName("a")[0]
-                            txtValue = a.textContent || a.innerText;
-                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            div[i].style.display = "";
-                            } else {
-                            div[i].style.display = "none";
-                            }
-                        }
-                    }
-
-
-                    $(document).ready(function() {
-                      $('select').multipleSelect({
-                        selectAll: false,
-                        filter: true,
-                        filterPlaceholder: 'Najdi',
-                        maxHeight: 140
-                      });
-                     
-
-                   
-
-                        $("#potrdi").click(function(){
-                            var cardBody = $(".card-body").find("div").map(function(){
-                                return $(this).attr('class');
-                            }).get();
-                            console.log(cardBody);
-
-                            var cardBodyParents = $(".card-body").find("div").map(function(){
-                                return $(this).parent().closest('div').attr('id');
-                            }).get();
-                            console.log(cardBodyParents);
-
-                            var isChecked = $(".form-check-input:checkbox:checked").map(function(){
-                                return $(this).val();
-                            }).get();
-
-                        if(isChecked.length == 0)$(".card").show();
-                        else $(".card").hide();
-                        
-                        for(filter in isChecked){
-                            for(var i = 0; i < cardBody.length; i++){
-                                if(isChecked[filter] == cardBody[i]){
-                                    console.log(isChecked[filter] + " " + cardBodyParents[i])
-                                    $( '.'+cardBodyParents[i] ).fadeIn("slow");
-                                    checkFlag = true;
-                                
-                                }
-                                
-                                
-                            }
-                        }
-                        console.log(isChecked);
-                        });
-                            
-                      
-                
-                    });
-                   
-            </script>
-
+            
             
 	</head>
 	<body>
@@ -283,10 +181,9 @@
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
                         
-<div class="form-check" id="filters" >
+<div class="form-check" id="zvezdice-form" >
         <a href="javascript:void(0)" class="float" id="potrdi">
             <i class="fa my-float">&#10004;</i>
-           
         </a>
         </br>
         <div class="row">
@@ -296,7 +193,7 @@
     
     %for zvezdica in zvezdice:
         <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{zvezdica}}" id="{{zvezdica}}">
+            <input class="form-check-input form-check-input-zvezdice" type="checkbox" value="{{zvezdica}}" id="{{zvezdica}}">
             <label class="form-check-label" for="{{zvezdica}}">
                  %if zvezdica == 5:
                     <span class="fa fa-star checked"></span>
@@ -326,7 +223,8 @@
             </label>
         </div>
     %end
-
+</div>
+<div class="form-check" id="nastanitev-form">
     </br>
     <div class="row">
         <h4>Tip nastanitve:</h4>
@@ -334,28 +232,14 @@
     </div>
     %for nastanitev in nastanitve:
         <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{nastanitev}}" id="{{nastanitev}}">
+            <input class="form-check-input form-check-input-nastanitev" type="checkbox" value="{{nastanitev}}" id="{{nastanitev}}">
             <label class="form-check-label" for="{{nastanitev}}" >
                 {{nastanitev}}
             </label>
         </div>
     %end
-
-    </br>
-    <div class="row">
-        <h4>Ugodnosti:</h4>
-        <hr size="30" align="left" width ="75%">
-    </div>
-    %for ugodnost in ugodnosti:
-        <div class="row">
-            <input class="form-check-input" type="checkbox" value="{{ugodnost[1]}}" id="{{ugodnost[1]}}">
-            <label class="form-check-label" for="{{ugodnost[1]}}">
-                {{ugodnost[1]}}
-            </label>
-        </div>
-    %end
-
-   
+</div>
+<div class="form-check" id="okrozje-form">
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Okrožje":
@@ -368,15 +252,15 @@
             %flag = "false" 
             %end
             <div class="row">
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <input class="form-check-input form-check-input-okrožje" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
                 <label class="form-check-label" for="{{lokacija}}" >
                     {{lokacija}}
                 </label>
             </div>
         %end
     %end
-
-    
+</div>
+<div class="form-check" id="znacilnost-form">
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Značilnost":
@@ -389,15 +273,15 @@
                 %flag = "false"
             %end
             <div class="row">
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <input class="form-check-input form-check-input-značilnost" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
                 <label class="form-check-label" for="{{lokacija}}">
                     {{lokacija}}
                 </label>
             </div>
         %end
     %end
-
-    
+</div>
+<div class="form-check" id="znamenitost-form">
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
         %if tip == "Znamenitost":
@@ -412,7 +296,7 @@
             
             <div class="row">
             
-                <input class="form-check-input" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
+                <input class="form-check-input form-check-input-znamenitost" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
                 <label class="form-check-label" for="{{lokacija}}" >
                     {{lokacija}}
                 </label>
@@ -420,21 +304,38 @@
         %end
     %end
 </div>
+</br>
+<div class="form-check" id="ugodnosti-form">
+    
+    <div class="row">
+        <h4>Ugodnosti:</h4>
+        <hr size="30" align="left" width ="75%">
+    </div>
+    %for ugodnost in ugodnosti:
+        <div class="row">
+            <input class="form-check-input form-check-input-ugodnosti" type="checkbox" value="{{ugodnost[1]}}" id="{{ugodnost[1]}}">
+            <label class="form-check-label" for="{{ugodnost[1]}}">
+                {{ugodnost[1]}}
+            </label>
+        </div>
+    %end
+</div>
 <br>
-<!--<button class="btn btn-default wow" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit" id="potrdi">Potrdi</button>-->
-                      
+                     
             </div>
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8" id="seznam">
+                    
                     <input id="iskanje" onkeyup="išči()" type="text" placeholder="Išči po imenu..">
                     Uredi po: <a class="card-title link" href="javascript:urediPoZvezdicah()" >številu zvezdic</a>,
                     <a class="card-title link" href="javascript:urediPoAbecedi()" >abecedi</a>
                     <br></br>
+                    <h3 id="nofilter" style="display:none;">Ni rezultatov za izbrane filtre</h3>
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
                         <div class="card border-danger mb-3 hotel_{{hotel_id}}" id="zvezdice{{st_zvezdic}}" >
                             <div class="row">
                                 <div class="col-md-4" style="margin:10px;">
-                                    <img  src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
+                                    <img class="img-responsive" src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
                                 </div>
                             
                                 <div class="col-md-6">
