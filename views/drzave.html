@@ -48,10 +48,8 @@
             </style>
             
             <script>
-                    function urediPoZvezdicah(){
-                        
+                    function urediPoZvezdicah(){                 
                         var elem = $("#seznam").find(".card").sort(zvezdice);
-                        
                         $("#seznam").append(elem);
                     }
 
@@ -70,9 +68,8 @@
                         var h2 = div3.getElementsByTagName("h2")[0];
                         b = h2.getElementsByTagName("a")[0]
                         if(a.textContent < b.textContent){
-                            console.log(a.textContent + " " + b.textContent)
                             return -1
-                        }else{console.log(a.textContent + " " + b.textContent);return 1;} 
+                        }else{return 1;} 
                     }
 
                     function urediPoAbecedi(){
@@ -81,14 +78,13 @@
                     }
 
                     function išči() {
-                        // Declare variables
+                        
                         var input, filter, seznam, div, a, i, txtValue;
                         input = document.getElementById('iskanje');
                         filter = input.value.toUpperCase();
                         seznam = document.getElementById("seznam");
                         div = seznam.getElementsByClassName('card');
 
-                        // Loop through all list items, and hide those who don't match the search query
                         for (i = 0; i < div.length; i++) {
                             var div1 = div[i].getElementsByTagName("div")[0];
                             var div2 = div1.getElementsByTagName("div")[1];
@@ -112,52 +108,33 @@
                         filterPlaceholder: 'Najdi',
                         maxHeight: 140
                       });
-                      var cardBody = null;
-                      var cardBodyParents = null;
+                     
 
-                      cardBody = $(".card-body").find("div").map(function(){
-                          return $(this).attr('class');
-                      }).get();
-                      console.log(cardBody);
+                   
 
-                      cardBodyParents = $(".card-body").find("div").map(function(){
-                          return $(this).parent().closest('div').attr('id');
-                      }).get();
-                      console.log(cardBodyParents);
+                        $("#potrdi").click(function(){
+                            var cardBody = $(".card-body").find("div").map(function(){
+                                return $(this).attr('class');
+                            }).get();
+                            console.log(cardBody);
 
-                      var isChecked = $(".form-check-input:checkbox:checked").map(function(){
-                           return $(this).val();
-                        }).get();
+                            var cardBodyParents = $(".card-body").find("div").map(function(){
+                                return $(this).parent().closest('div').attr('id');
+                            }).get();
+                            console.log(cardBodyParents);
 
-                    for(filter in isChecked){
-                        for(var i = 0; i < cardBody.length; i++){
-                            if(isChecked[filter] == cardBody[i]){
-                                console.log(isChecked[filter] + " "+ cardBodyParents[i])
-                                $('.'+cardBodyParents[i]).show();
-                                
-                            }
-                        }
-                    }
-                    if(isChecked.length == 0)$(".card").show();
+                            var isChecked = $(".form-check-input:checkbox:checked").map(function(){
+                                return $(this).val();
+                            }).get();
 
-                    $(".form-check-input:checkbox").click(function(){
-                        isChecked = $(".form-check-input:checkbox:checked").map(function(){
-                        return $(this).val();
-                        }).get();
-                        console.log(isChecked);
-                        if(cardBody != null)
-                        console.log(cardBody);
-                        if(cardBodyParents != null)
-                        console.log(cardBodyParents);
-                        var checkFlag = false;
+                        if(isChecked.length == 0)$(".card").show();
+                        else $(".card").hide();
+                        
                         for(filter in isChecked){
                             for(var i = 0; i < cardBody.length; i++){
-                                if(i > 0 && cardBodyParents[i] != cardBodyParents[i-1] &&checkFlag == false ){
-                                    $( '.'+cardBodyParents[i-1] ).hide();
-                                }
                                 if(isChecked[filter] == cardBody[i]){
                                     console.log(isChecked[filter] + " " + cardBodyParents[i])
-                                    $( '.'+cardBodyParents[i] ).show();
+                                    $( '.'+cardBodyParents[i] ).fadeIn("slow");
                                     checkFlag = true;
                                 
                                 }
@@ -165,9 +142,9 @@
                                 
                             }
                         }
-                        if(isChecked.length == 0)$(".card").show();
-                    });
-                      console.log(isChecked);
+                        console.log(isChecked);
+                        });
+                            
                       
                 
                     });
@@ -301,12 +278,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 filter-container">
+                    
                     <div class="block">
                             <h1 class="heading wow fadeInUp" data-wow-duration="400ms" data-wow-delay="500ms" > <span>{{mesto}}</span></h1>
 
                         
 <div class="form-check" id="filters" >
-    
+        <a href="javascript:void(0)" class="float" id="potrdi">
+            <i class="fa my-float">&#10004;</i>
+           
+        </a>
         </br>
         <div class="row">
             <h4>Zvezdice:</h4>
@@ -440,7 +421,7 @@
     %end
 </div>
 <br>
-<button class="btn btn-default wow" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">Potrdi</button>
+<!--<button class="btn btn-default wow" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit" id="potrdi">Potrdi</button>-->
                       
             </div>
                 </div><!-- .col-md-12 close -->
