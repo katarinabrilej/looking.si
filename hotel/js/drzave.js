@@ -98,7 +98,27 @@ function filtriranje2(cardBody, cardBodyParents, isChecked){
 }
 
 
+
 $(document).ready(function() {
+
+    var $window = $(window);
+    var up = $('#up');
+    var tick = $('#potrdi');
+    var X = $('#uncheck');
+    var up_top = up.offset().top;
+    var up_height = up.height();
+    var up_bottom = up_top + up_height;
+    $window.on('scroll',function(){
+        var scrollTop = document.documentElement.scrollTop;
+        var viewport_height = $window.height();
+        var scrollTop_bottom = scrollTop + viewport_height;
+        if(scrollTop_bottom  < up_bottom+600)tick.fadeOut('slow');
+        else tick.fadeIn('slow');
+        if(scrollTop_bottom  < up_bottom+600)X.fadeOut('slow');
+        else X.fadeIn('slow');
+        
+    })
+
   $('select').multipleSelect({
     selectAll: false,
     filter: true,
@@ -106,7 +126,11 @@ $(document).ready(function() {
     maxHeight: 140
   });
  
-
+  $("#uncheck").click(function(){
+      $(".form-check-input:checkbox").removeAttr('checked');
+      $(".card").fadeIn("slow");
+      $("#nofilter").hide();
+  })
 
 
     $("#potrdi").click(function(){

@@ -178,6 +178,197 @@
             </div><!-- .row close -->
         </div><!-- .container close -->
     </section><!-- slider close -->
+    <section id="podrobnosti">
+        <div class ="row">
+            <div class="col-md-12">
+                %for ( hotel_id,ime, st_zvezdic, tip_nastanitve, ime_mesta ) in hotel_podrobnosti:
+                        <div class="card card-hotel" >
+                            <div class="row">
+                                <div class="col-md-4" style="margin:10px;">
+                                    <img class="img-responsive" src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
+                                </div>
+                            
+                                <div class="col-md-6">
+                                    <div class="card-body px-4" style="margin-top:10px;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h1 class="card-title inline" style="text-align:left;">{{ime}}</h1>
+                                            
+                                                %if st_zvezdic == 5:
+                                                <div class="5 inline zvezdice">        
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                        <span class="fa fa-star checked"></span>
+                                                </div>
+                                                %end
+                                                %if st_zvezdic == 4:
+                                                <div class="4 inline zvezdice">
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                </div>
+                                                %end
+                                                %if st_zvezdic == 3:
+                                                <div class="3 inline zvezdice">
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                </div>
+                                                %end
+                                                %if st_zvezdic == 2:
+                                                <div class="2 inline zvezdice">
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                </div>
+                                                %end
+                                                %if st_zvezdic == 1:
+                                                <div class="1 inline zvezdice">
+                                                    <span class="fa fa-star checked"></span>
+                                                </div>
+                                                %end
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="{{tip_nastanitve}}">
+                                                    <h4 >Tip nastanitve:</h4>
+                                                    <h6 > {{tip_nastanitve}}</h6>
+                                                </div>
+                                                %okrozjeFlag = "true"
+                                                %značilnostFlag = "true"
+                                                %znamenitostFlag = "true"
+                                                %for(ime_lokacije, tip, id_lokacije) in lokacije:
+                                                    
+                                                    %if tip == "Okrožje":
+                                                    <div class="{{ime_lokacije}}">
+                                                        %if okrozjeFlag == "true":
+                                                            <h4 >Okrožje:</h4>
+                                                            %okrozjeFlag = "false"
+                                                        %end
+                                                        <h6 > {{ime_lokacije}}</h6>
+                                                    </div>
+                                                    %end
+                                                    
+                                                    %if tip == "Značilnost":
+                                                    <div class="{{ime_lokacije}}">
+                                                        %if značilnostFlag == "true":
+                                                            <h4 >Značilnosti:</h4>
+                                                            %značilnostFlag = "false"
+                                                        %end
+                                                        <h6> {{ime_lokacije}}</h6>
+                                                    </div>
+                                                    %end
+                                                    
+                                                    %if tip == "Znamenitost":
+                                                    <div class="{{ime_lokacije}}">
+                                                        %if znamenitostFlag == "true":
+                                                            <h4>Znamenitosti:</h4>
+                                                            %znamenitostFlag = "false"
+                                                        %end
+                                                        <h6> {{ime_lokacije}}</h6>
+                                                    </div>
+                                                    %end
+
+                                                %end
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h4>Ugodnosti:</h4>
+                                                    %for(id, ime_ugodnosti)in ugodnosti:
+                                                        <h6> {{ime_ugodnosti}}</h6>
+                                                    %end
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                </div>  
+                            </div>  
+                            
+                        </div>
+                    %end
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-12">
+                        <div class="block">
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj komentar in <span>oceni</span> </h3>
+                            <form  role="form" method="post" action=".">
+
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <textarea class="form-control" placeholder="Napiši komentar" name="komentar" required></textarea>
+                                </div>
+
+                                
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms" >
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="1">1
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="2">2
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="3">3
+                                    </label>
+                                </div> 
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms" >
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="4">4
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="5">5
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="6">6
+                                    </label>
+                                </div> 
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms" >
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="7">7
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="8">8
+                                    </label>
+                                </div>
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="9">9
+                                    </label>
+                                </div> 
+                                <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="optradio" value="10">10
+                                    </label>
+                                </div> 
+                                <br>
+                                    %id = hotel_podrobnosti[0]
+                                 <button href="/hotel-podrobno/{{id[0]}}"class="btn  wow bounceIn orange" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">Dodaj</button>
+                            </form>
+                           
+                                
+                        </div>
+                    </div><!-- .col-md-12 close -->
+                    <div class="col-md-12">
+                        <div class="block">
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">MNENJA</h3>
+                                
+                        </div>
+                    </div><!-- .col-md-12 close -->
+                </div><!-- .row close -->
+            </div>
+    </section>
 
     
     <!--

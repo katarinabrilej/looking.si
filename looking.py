@@ -7,6 +7,7 @@ from bottle import *
 import sqlite3
 import hashlib
 from datetime import datetime
+from datetime import date
 
 # uvozimo ustrezne podatke za povezavo
 import auth_public as auth
@@ -138,7 +139,6 @@ def drzave_hoteli(x):
     ugodnosti = cur.fetchall()
     cur.execute("SELECT  lokacije.id,ime_lokacije, tip, mesto.id FROM lokacije JOIN mesto ON mesto_id = mesto.id WHERE mesto.id = %s", [x])
     lokacije = cur.fetchall()
-    #lokacije = clean2(lokacije)
     cur.execute("SELECT ime, hotel.id, st_zvezdic, tip_nastanitve, mesto.id FROM hotel JOIN mesto ON  mesto.id = mesto_id WHERE mesto.id = %s", [x])
     hoteli = cur.fetchall()
     cur.execute("SELECT st_zvezdic, mesto_id FROM hotel WHERE mesto_id =%s", [x])
@@ -153,10 +153,16 @@ def drzave_hoteli(x):
     nastanitve = list(nastanitve)
     return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
 
-@get("/hotel/")
-def hotel():
+@get("/hotel-podrobno/:x")
+def hotel1(x):
+    cur.execute("SELECT ime_lokacije, tip, lokacija_id FROM na_lokaciji JOIN lokacije ON lokacija_id = id WHERE hotel_id = %s",[x])
+    lokacije = cur.fetchall()
+    cur.execute("SELECT ugodnost, ime_ugodnosti FROM ima JOIN ugodnosti ON id = ugodnost WHERE hotel = %s", [x])
+    ugodnosti = cur.fetchall()
+    cur.execute("SELECT hotel.id,ime, st_zvezdic,tip_nastanitve, mesto.ime_mesta FROM hotel JOIN mesto ON mesto.id = mesto_id WHERE hotel.id =%s", [x])
+    hotel_podrobnosti = cur.fetchall()
     username = get_user()
-    return template("hotel.html", username=username)
+    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti)
 
 @get("/login/")
 def login_get():
@@ -252,7 +258,24 @@ def uporabnik(sporocila=[]):
     username = get_user()
     return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila)
 
-post("/uporabnik/")
+
+
+@post("/hotel-podrobno/")
+def dodajKomentar():
+    username = get_user()
+    komentar = request.forms.komentar
+    ocena = request.forms['optradio']
+    datum = date.today()
+    #hotel_id = x;
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+    cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=?",[username])
+    user_id =  cur.fetchall()
+    if user_id is not None:
+        cur.execute("INSERT INTO oceni (datum, mnenje, vrednost, hotel, uporabnik) VALUES (%s,%s,%s,%s,%s)",
+                                    (datum,komentar,ocena,"6",user_id))
+    return template("hotel.html")
+
+@post("/uporabnik/")
 def spremeni():
     sporocilo = get_sporocilo()
     username = get_user()
@@ -273,7 +296,7 @@ def spremeni():
             if password2 == password3:
                 # Vstavimo v bazo novo geslo
                 password2 = password_hash(password2)
-                c.execute ("UPDATE uporabnik SET geslo=? WHERE uporabnisko_ime = ?", [password2, username])
+                cur.execute ("UPDATE uporabnik SET geslo=? WHERE uporabnisko_ime = ?", [password2, username])
                 sporocila.append(("alert-success", "Spremenili ste geslo."))
             else:
                 sporocila.append(("alert-danger", "Gesli se ne ujemata"))

@@ -148,6 +148,15 @@ a.link:hover{
     background-color: #ecf5fa;
 }
 
+.card-hotel{
+    width: 90%;
+    margin-left: 5%;
+}
+
+.card-hotel:hover{
+    background-color: #FFF;
+}
+
 .big{
     width: 60%;
     font-size: 3em;
@@ -157,8 +166,8 @@ a.link:hover{
 	position:fixed;
 	width:60px;
 	height:60px;
-	bottom:40px;
-	left:40px;
+	bottom:105px;
+	left:30px;
 	background-color:#df884f;
 	color:#FFF;
 	border-radius:50px;
@@ -170,4 +179,40 @@ a.link:hover{
     margin-top:22px;
     align-content: center;
 }
+
+.float2{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	left:30px;
+	background-color:#df884f;
+	color:#FFF;
+	border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #fff;
+	
+}
+.my-float2{
+    size: 20px;
+    margin-top:22px;
+    align-content: center;
+}
+
+.inline{
+    display: inline-block;
+}
+
+.zvezdice{
+    margin-inline-start: 20px;
+    
+}
+
+.orange{
+    background-color: #df884f;
+    
+}
+
+
+
 
