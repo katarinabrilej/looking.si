@@ -161,8 +161,36 @@ def hotel1(x):
     ugodnosti = cur.fetchall()
     cur.execute("SELECT hotel.id,ime, st_zvezdic,tip_nastanitve, mesto.ime_mesta FROM hotel JOIN mesto ON mesto.id = mesto_id WHERE hotel.id =%s", [x])
     hotel_podrobnosti = cur.fetchall()
+    cur.execute("SELECT datum, mnenje, vrednost,uporabnik.uporabnisko_ime FROM oceni JOIN uporabnik ON uporabnik.id = oceni.uporabnik WHERE hotel= %s", [x])
+    komentarji = cur.fetchall()
     username = get_user()
-    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti)
+    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
+
+@post("/hotel-podrobno/")
+def dodajKomentar():
+    username = get_user()
+    komentar = request.forms.komentar
+    ocena = request.forms['optradio']
+    datum = date.today()
+    hotel_id = request.forms['idHotela']
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
+    cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=%s",[username])
+    user_id =  cur.fetchall()
+    cur.execute("SELECT ime_lokacije, tip, lokacija_id FROM na_lokaciji JOIN lokacije ON lokacija_id = id WHERE hotel_id = %s",[hotel_id])
+    lokacije = cur.fetchall()
+    cur.execute("SELECT ugodnost, ime_ugodnosti FROM ima JOIN ugodnosti ON id = ugodnost WHERE hotel = %s", [hotel_id])
+    ugodnosti = cur.fetchall()
+    cur.execute("SELECT hotel.id,ime, st_zvezdic,tip_nastanitve, mesto.ime_mesta FROM hotel JOIN mesto ON mesto.id = mesto_id WHERE hotel.id =%s", [hotel_id])
+    hotel_podrobnosti = cur.fetchall()
+    cur.execute("SELECT datum, mnenje, vrednost, uporabnik.uporabnisko_ime FROM oceni JOIN uporabnik ON uporabnik.id = oceni.uporabnik  WHERE hotel= %s", [hotel_id])
+    komentarji = cur.fetchall()
+    if user_id is not None:
+        cur.execute("INSERT INTO oceni (datum, mnenje, vrednost, hotel, uporabnik) VALUES (%s,%s,%s,%s,%s)",
+                                    (datum,komentar,ocena,hotel_id,user_id[0][0]))
+        return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
+
+    
+
 
 @get("/login/")
 def login_get():
@@ -260,20 +288,7 @@ def uporabnik(sporocila=[]):
 
 
 
-@post("/hotel-podrobno/")
-def dodajKomentar():
-    username = get_user()
-    komentar = request.forms.komentar
-    ocena = request.forms['optradio']
-    datum = date.today()
-    #hotel_id = x;
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
-    cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=?",[username])
-    user_id =  cur.fetchall()
-    if user_id is not None:
-        cur.execute("INSERT INTO oceni (datum, mnenje, vrednost, hotel, uporabnik) VALUES (%s,%s,%s,%s,%s)",
-                                    (datum,komentar,ocena,"6",user_id))
-    return template("hotel.html")
+
 
 @post("/uporabnik/")
 def spremeni():

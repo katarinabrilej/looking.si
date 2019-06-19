@@ -120,7 +120,7 @@
                         <div class="card card-hotel" >
                             <div class="row">
                                 <div class="col-md-4" style="margin:10px;">
-                                    <img class="img-responsive" src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
+                                    <img class="img-responsive img-podrobnost" src="/hotel/images/hoteli/hotel_{{hotel_id}}.jpg" alt="">
                                 </div>
                             
                                 <div class="col-md-6">
@@ -225,11 +225,27 @@
                     %end
             </div>
         </div>
-        <div class="container">
+        <div class="card-komentar">
             <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="block">
-                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj komentar in <span>oceni</span> </h3>
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">MNENJA</h3>
+                             %for(datum, mnenje, vrednost, uporabnisko_ime) in komentarji:
+                                <h5 class="orange-text wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms"><span>{{uporabnisko_ime}}:</span> </h5>
+                                <div class="card card-hotel wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
+                                    <p class="komentar">"{{mnenje}}"</p>
+                                </div>
+                                <p class="ocena wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">OCENA: {{vrednost}}</p>
+                                 <hr size="30" align="left" width ="95%">
+                             %end   
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="vl"></div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="block">
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj komentar in <span>oceni hotel</span> </h3>
                             <form  role="form" method="post" action=".">
 
                                 <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
@@ -239,7 +255,7 @@
                                 
                                 <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms" >
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="optradio" value="1">1
+                                        <input type="radio" class="form-check-input" name="optradio" value="1" required>1
                                     </label>
                                 </div>
                                 <div class="radio-inline wow fadeInDown" data-wow-duration="500ms" data-wow-delay="800ms">
@@ -286,21 +302,23 @@
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="optradio" value="10">10
                                     </label>
+                                </div>
+                                %id = hotel_podrobnosti[0]
+                                <div hidden>    
+                                    <select class="custom-select" name="idHotela" >
+                                        <option selected={{id[0]}} value={{id[0]}} >{{id[0]}}</option>
+                                    </select>
                                 </div> 
                                 <br>
-                                    %id = hotel_podrobnosti[0]
-                                 <button href="/hotel-podrobno/{{id[0]}}"class="btn  wow bounceIn orange" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">Dodaj</button>
+                                    
+                                
+                                 <button class="btn  wow bounceIn orange" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">Dodaj</button>
                             </form>
                            
                                 
                         </div>
                     </div><!-- .col-md-12 close -->
-                    <div class="col-md-12">
-                        <div class="block">
-                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">MNENJA</h3>
-                                
-                        </div>
-                    </div><!-- .col-md-12 close -->
+                    <!-- .col-md-12 close -->
                 </div><!-- .row close -->
             </div>
     </section>

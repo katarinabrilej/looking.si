@@ -112,9 +112,9 @@ $(document).ready(function() {
         var scrollTop = document.documentElement.scrollTop;
         var viewport_height = $window.height();
         var scrollTop_bottom = scrollTop + viewport_height;
-        if(scrollTop_bottom  < up_bottom+600)tick.fadeOut('slow');
+        if(scrollTop_bottom  < up_bottom+400)tick.fadeOut('slow');
         else tick.fadeIn('slow');
-        if(scrollTop_bottom  < up_bottom+600)X.fadeOut('slow');
+        if(scrollTop_bottom  < up_bottom+400)X.fadeOut('slow');
         else X.fadeIn('slow');
         
     })

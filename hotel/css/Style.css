@@ -152,9 +152,19 @@ a.link:hover{
     width: 90%;
     margin-left: 5%;
 }
-
 .card-hotel:hover{
     background-color: #FFF;
+}
+
+.card-komentar{
+    width: 90%;
+    margin-left: 5%;
+    border:none;
+}
+
+.card-komentar:hover{
+    background-color: #FFF;
+    border:none;
 }
 
 .big{
@@ -210,7 +220,28 @@ a.link:hover{
 
 .orange{
     background-color: #df884f;
-    
+}
+
+.orange-text{
+    color: #FF5333;
+}
+
+.img-podrobnost{
+    height:80%;
+    width: 80%;
+}
+
+.vl {
+    border-left: 1px solid gray;
+    height: 500px;
+  }
+
+.komentar{
+    margin: 10px 20px 10px 20px;
+}
+.ocena{
+    margin-left:30px;
+    font-weight: bold;
 }
 
 
