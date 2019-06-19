@@ -233,7 +233,7 @@ a.link:hover{
 
 .vl {
     border-left: 1px solid gray;
-    height: 500px;
+    
   }
 
 .komentar{
@@ -242,6 +242,17 @@ a.link:hover{
 .ocena{
     margin-left:30px;
     font-weight: bold;
+}
+
+.datum{
+    float:right;
+    margin-right: 30px;
+}
+
+.dodaj-komentar{
+    position: 'sticky';
+    top: 0;
+    
 }
 
 
