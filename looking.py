@@ -320,8 +320,98 @@ def spremeni():
 def admin():
     sporocilo = get_sporocilo()
     username = get_user()
-    return template("admin.html", username = username, sporocilo = sporocilo)
+    cur.execute("SELECT id, ime_celine FROM celina ORDER BY ime_celine")
+    celine= cur.fetchall()
+    cur.execute("SELECT id, ime_drzave FROM drzava ORDER BY ime_drzave")
+    drzave= cur.fetchall()
+    cur.execute("SELECT ime_mesta, ime_drzave,  mesto.id ,drzava.id FROM drzava JOIN mesto ON drzava.id = drzava_id ORDER BY ime_mesta")
+    mesta = cur.fetchall()
+    cur.execute("SELECT * FROM ugodnosti ORDER BY ime_ugodnosti")
+    ugodnosti = cur.fetchall()
 
+    return template("admin.html", username = username, sporocilo = sporocilo, napaka1 = None,  napaka2 = None, napaka3 = None, 
+    celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+
+@post("/admin/")
+def dodaj():
+    username = get_user()
+    
+    cur.execute("SELECT id, ime_celine FROM celina ORDER BY ime_celine")
+    celine= cur.fetchall()
+    cur.execute("SELECT id, ime_drzave FROM drzava ORDER BY ime_drzave")
+    drzave= cur.fetchall()
+    cur.execute("SELECT ime_mesta, ime_drzave,  mesto.id ,drzava.id FROM drzava JOIN mesto ON drzava.id = drzava_id ORDER BY ime_mesta")
+    mesta = cur.fetchall()
+    cur.execute("SELECT * FROM ugodnosti ORDER BY ime_ugodnosti")
+    ugodnosti = cur.fetchall()
+
+
+    drzava = request.forms.drzava
+    id_celine = request.forms.celina
+
+    mesto = request.forms.mesto
+    id_drzave = request.forms.drzava_izbira
+
+    hotel = request.forms.hotel
+    id_mesta = request.forms.mesto_izbira
+
+    
+    nastanitev = request.forms.nastanitev
+    st_zvezdic = request.forms.zvezdice
+
+    ugodnosti = request.forms.ugodnosti 
+
+
+    if drzava:
+
+
+        cur.execute("SELECT 1 FROM drzava WHERE ime_drzave=%s", [drzava])
+        if cur.fetchone():
+            # Uporabnik že obstaja
+            return template("admin.html",
+                               username=username,
+                               napaka1='Ta država je že vnešena.',
+                               napaka2 = None,
+                               napaka3 = None,
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+        else:
+            cur.execute("INSERT INTO Drzava(Ime_drzave, Celina_id) VALUES (%s, %s)", [drzava, id_celine])
+            return redirect("/admin/")
+
+    elif mesto:
+        cur.execute("SELECT 1 FROM mesto WHERE ime_mesta=%s", [mesto])
+        if cur.fetchone():
+        # Uporabnik že obstaja
+            return template("admin.html",
+                               username=username,
+                               napaka1 = None,
+                               napaka2='To mesto je že vnešeno.',
+                               napaka3 = None,
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+        else:
+            cur.execute("INSERT INTO mesto(ime_mesta, drzava_id) VALUES (%s, %s)", [mesto, id_drzave])
+            return redirect("/admin/") 
+    
+    elif hotel:
+        cur.execute("SELECT drzava_id FROM mesto WHERE id = %s", [id_mesta])
+        drzava_id = cur.fetchone()
+        drzava_id = drzava_id[0]
+
+        cur.execute("SELECT * FROM hotel JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND Ime = %s", [id_mesta, hotel])
+        if cur.fetchone():
+        # Uporabnik že obstaja
+            return template("admin.html",
+                               username=username,
+                               napaka1 = None,
+                               napaka2= None,
+                               napaka3 = 'Ta hotel v tem mestu že obstaja.',
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+        else:
+            cur.execute("INSERT INTO hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES (%s, %s, %s, %s, %s)", [hotel, st_zvezdic, nastanitev, drzava_id, id_mesta])
+            cur.execute("INSERT INTO ima (hotel, ugodnost) VALUES (10, %s)", [ugodnosti])
+            return redirect("/admin/") 
+
+       
 
 
 

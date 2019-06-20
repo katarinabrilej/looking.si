@@ -26,6 +26,13 @@
     <script src="/hotel/js/vendor/modernizr-2.6.2.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="/hotel/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+    <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>
+
+
     <script src="/hotel/js/jquery.nav.js"></script>
     <script src="/hotel/js/jquery.sticky.js"></script>
     <script src="/hotel/js/bootstrap.min.js"></script>
@@ -33,7 +40,24 @@
     <script src="/hotel/js/wow.min.js"></script>
     <script src="/hotel/js/main.js"></script>
     <script src="/hotel/js/jQuery.js"></script>
-	</head>
+
+<script>
+            $(function() {
+              $('#select1').multipleSelect({
+                selectAll: false,
+                filter: true
+              })
+            })
+          </script>
+
+<style>
+        select {
+          width: 500px;
+        }
+</style>
+
+    </head>
+    
 	<body>
 	<!--
 	header-img start 
@@ -80,17 +104,104 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="block">
-                            <h1 class="heading wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms"><span>STRAN ZA DODAJANJE PODATKOV</span></h1>
+                            <h1 class="heading wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms"><span>Stran za dodajanje podatkov</span></h1>
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>državo</span> </h3>
+                            <form class="form-signin" role="form" method="post" action=".">
+                                %if napaka1:
+                                <div class="alert alert-warning">{{napaka1}}</div>
+                                %end
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                    <input type="drzava" class="form-control" placeholder="Ime države, primer: Slovenija"
+                                    name="drzava" required autofocus>
+                                </div>
 
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                        <p>Izberi celino:  <select name = "celina">
+                                            %for (id, ime_celine) in celine:
+                                            <option value="{{id}}">{{ime_celine}}</option>
+                                            %end
+                                          </select></p>
+                                    </div>
+                                  
 
-  <form action="/admin" method="POST">
-      <div class="form-group">
-        <label>Ime države</label>
-        <input type="text" name="ime" value="ime" class="form-control" placeholder="Ime države" required="true">
-      </div>
-      <button type="submit" class="btn btn-primary">Dodaj</button>
-  </form>
+                                <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
+                                
+                            </form>
+                        </form>
+                        <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>mesto</span> </h3>
+                        <form class="form-signin" role="form" method="post" action=".">
+                            %if napaka2:
+                            <div class="alert alert-warning">{{napaka2}}</div>
+                            %end
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <input type="mesto" class="form-control" placeholder="Ime mesta, primer: Ljubljana"
+                                name="mesto" required autofocus>
+                            </div>
 
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                    <p>Izberi državo:  <select name = "drzava_izbira">
+                                        %for (id, ime_drzave) in drzave:
+                                        <option value="{{id}}">{{ime_drzave}}</option>
+                                        %end
+                                      </select></p>
+                                </div>
+                              
+
+                            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
+                            
+                        </form>
+
+                    </form>
+                    <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>hotel</span> </h3>
+                    <form class="form-signin" role="form" method="post" action=".">
+                        %if napaka3:
+                        <div class="alert alert-warning">{{napaka3}}</div>
+                        %end
+                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                            <input type="hotel" class="form-control" placeholder="Ime hotela, primer: Hotel Slon"
+                            name="hotel" required autofocus>
+                        </div>
+
+                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <p>Izberi mesto:  <select name = "mesto_izbira">
+                                    %for (mesto, drzava, mesto_id, drzava_id) in mesta:
+                                    <option value="{{mesto_id}}">{{mesto}}, {{drzava}}</option>
+                                    %end
+                                  </select></p>
+                                </div>
+
+                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                            <p>Izberi nastanitev:  <select name = "nastanitev">
+                                <option value="Hotel">Hotel</option>
+                                    <option value="Apartma">Apartma</option>
+                                    <option value="Hostel">Hostel</option>
+                                    </select></p>
+                            </div>
+
+                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                            <p>Izberi zvezdice:  <select name = "zvezdice">
+                                <option value=1>1</option>
+                                <option value=2>2</option>
+                                <option value=3>3</option>
+                                <option value=4>4</option>
+                                <option value=5>5</option>
+                                </select></p>
+                            </div>
+
+                            
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                    <p>Izberi ugodnosti:  <select multiple="multiple" name = "ugodnosti" id = "select1">
+                                        %for (id, ime_ugodnosti) in ugodnosti:
+                                        <option value="{{id}}">{{ime_ugodnosti}}</option>
+                                        %end
+                                      </select></p>
+                                    </div>
+                          
+
+                        <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
+                        
+                    </form>
+                            
                                 
                                   </div>
                                 </form>
@@ -99,7 +210,13 @@
                     </div><!-- .col-md-12 close -->
                 </div><!-- .row close -->
             </div><!-- .container close -->
-        </section><!-- #contact-us close -->  
+
+
+
+        
+
+
+             
   
 	</body>
 </html>
