@@ -1,4 +1,13 @@
-function urediPoZvezdicah(){                 
+function handleChange(){
+    var opcije = document.getElementById("urediPo");
+    var izbrano = opcije.options[opcije.selectedIndex].value;
+    if(izbrano == "Abecedi")urediPoAbecedi();
+    else if(izbrano == "Zvezdicah")urediPoZvezdicah();
+}
+
+
+function urediPoZvezdicah(){      
+    console.log("alo")         
     var elem = $("#seznam").find(".card").sort(zvezdice);
     $("#seznam").append(elem);
 }
@@ -101,6 +110,10 @@ function filtriranje2(cardBody, cardBodyParents, isChecked){
 
 $(document).ready(function() {
 
+    
+    
+        
+
     var $window = $(window);
     var up = $('#up');
     var tick = $('#potrdi');
@@ -119,12 +132,7 @@ $(document).ready(function() {
         
     })
 
-  $('select').multipleSelect({
-    selectAll: false,
-    filter: true,
-    filterPlaceholder: 'Najdi',
-    maxHeight: 140
-  });
+  
  
   $("#uncheck").click(function(){
       $(".form-check-input:checkbox").removeAttr('checked');
@@ -249,7 +257,9 @@ $(document).ready(function() {
         }
         
     });
-        
+
+
+   
   
 
 });

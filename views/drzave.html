@@ -23,10 +23,12 @@
         <!-- Responsive Stylesheet -->
 		<link rel="stylesheet" href="/hotel/css/responsive.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+        <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
 		<!-- Js -->
     <script src="/hotel/js/vendor/modernizr-2.6.2.min.js"></script>
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="/hotel/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+   <!-- <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>-->
     <script src="/hotel/js/jquery.nav.js"></script>
     <script src="/hotel/js/jquery.sticky.js"></script>
     <script src="/hotel/js/bootstrap.min.js"></script>
@@ -37,16 +39,18 @@
     <script src="/hotel/js/drzave.js"></script>
 
 
-    <link href="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
-    <script src="https://unpkg.com/multiple-select@1.3.1/dist/multiple-select.js"></script>
+    
+
+   
 
     <style>
             select {
               width: 200px;
             }
-            </style>
+    </style>
             
             
             
@@ -234,7 +238,7 @@
     </br>
     <div class="row">
         <h4>Tip nastanitve:</h4>
-        <hr size="30" align="left" width ="75%" color="red">
+        <hr size="30" align="left" width ="75%">
     </div>
     %for nastanitev in nastanitve:
         <div class="row">
@@ -331,10 +335,19 @@
             </div>
                 </div><!-- .col-md-12 close -->
                 <div class="col-md-8" id="seznam">
-                    
-                    <input id="iskanje" onkeyup="išči()" type="text" placeholder="Išči po imenu..">
-                    Uredi po: <a class="card-title link" href="javascript:urediPoZvezdicah()" >številu zvezdic</a>,
-                    <a class="card-title link" href="javascript:urediPoAbecedi()" >abecedi</a>
+                    <form class="form-inline">
+                        
+                            <input class="form-control-lg" id="iskanje" onkeyup="išči();" type="text" placeholder="Išči po imenu..">
+                            <select class="form-control-lg" id="urediPo" style="float:right;" onchange="handleChange();">
+                                    <option value="selected" selected="selected" hidden>Uredi po...</option>-->
+                                    <option value="Abecedi">Abecedi</option>
+                                    <option value="Zvezdicah">Zvezdicah</option>
+                                    <option value="Oceni">Oceni</option>
+                            </select>
+                        
+                    </form>
+                   <!-- Uredi po: <a class="card-title link" id="urediPoZvezdicah" href="#" >številu zvezdic</a>
+                    <a class="card-title link" id="urediPoAbecedi" href="javascript:urediPoAbecedi()" >abecedi</a>-->
                     <br></br>
                     <h3 id="nofilter" style="display:none;">Ni rezultatov za izbrane filtre</h3>
                     %for (ime, hotel_id, st_zvezdic, tip_nastanitve, mesto_id ) in hoteli:
