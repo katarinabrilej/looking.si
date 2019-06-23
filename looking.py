@@ -165,7 +165,11 @@ def hotel1(x):
     cur.execute("SELECT datum, mnenje, vrednost,uporabnik.uporabnisko_ime FROM oceni JOIN uporabnik ON uporabnik.id = oceni.uporabnik WHERE hotel= %s", [x])
     komentarji = cur.fetchall()
     username = get_user()
-    return template("hotel.html", username=username, admini = admini, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
+    cur.execute("SELECT AVG(vrednost) FROM oceni WHERE hotel=%s",[x])
+    povprecna_ocena = cur.fetchall()
+    povprecna_ocena = round(povprecna_ocena[0][0],1)
+    
+    return template("hotel.html", username=username, admini = admini, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji, povprecna_ocena = povprecna_ocena)
 
 @post("/hotel-podrobno/")
 def dodajKomentar():
@@ -280,7 +284,7 @@ def uporabnik(sporocila=[]):
     username = get_user()
     cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=%s",[username])
     user_id =  cur.fetchall()
-    cur.execute("SELECT datum, mnenje, vrednost, ime FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
+    cur.execute("SELECT datum, mnenje, vrednost, ime, oceni.hotel FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
     mnenja = cur.fetchall()
     
     return template("uporabnik.html", username = username, admini = admini, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)
