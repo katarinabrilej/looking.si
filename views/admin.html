@@ -12,6 +12,27 @@
                 filter: true
               })
             })
+            $(function() {
+              $('#select2').multipleSelect({
+                selectAll: false,
+                filter: true
+              })
+            })
+
+             $(function() {
+              $('#select3').multipleSelect({
+                selectAll: false,
+                filter: true
+              })
+            })
+
+             $(function() {
+              $('#select4').multipleSelect({
+                selectAll: false,
+                filter: true
+              })
+            })
+            
           </script>
 
 <style>
@@ -114,6 +135,50 @@
                             <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
                             
                         </form>
+                        <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>okrožje</span> </h3>
+                        <form class="form-signin" role="form" method="post" action=".">
+                            %if napaka_o:
+                            <div class="alert alert-warning">{{napaka_o}}</div>
+                            %end
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <input type="mesto" class="form-control" placeholder="Ime okrožja, primer: Center"
+                                name="okrozje" required autofocus>
+                            </div>
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <p>Izberi mesto:  <select name = "mesto_okrozje">
+                                    %for (mesto, drzava, mesto_id, drzava_id) in mesta:
+                                    <option value="{{mesto_id}}">{{mesto}}, {{drzava}}</option>
+                                    %end
+                                  </select></p>
+                                </div>
+                              
+
+                            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
+                            
+                        </form>
+                        <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>znamenitost</span> </h3>
+                        <form class="form-signin" role="form" method="post" action=".">
+                            %if napaka_z:
+                            <div class="alert alert-warning">{{napaka_z}}</div>
+                            %end
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <input type="mesto" class="form-control" placeholder="Ime znamenitosti, primer: Zmajski Most"
+                                name="znamenitost" required autofocus>
+                            </div>
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                <p>Izberi mesto:  <select name = "mesto_znamenitost">
+                                    %for (mesto, drzava, mesto_id, drzava_id) in mesta:
+                                    <option value="{{mesto_id}}">{{mesto}}, {{drzava}}</option>
+                                    %end
+                                  </select></p>
+                                </div>
+                              
+
+                            <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>
+                            
+                        </form>
 
                     </form>
                     <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj <span>hotel</span> </h3>
@@ -127,12 +192,13 @@
                         </div>
 
                         <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
-                                <p>Izberi mesto:  <select name = "mesto_izbira">
+                                <p>Izberi mesto:  <select name = "mesto_izbira" id = "mesto_izbira">
                                     %for (mesto, drzava, mesto_id, drzava_id) in mesta:
                                     <option value="{{mesto_id}}">{{mesto}}, {{drzava}}</option>
                                     %end
                                   </select></p>
                                 </div>
+                                
 
                         <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
                             <p>Izberi nastanitev:  <select name = "nastanitev">
@@ -160,6 +226,24 @@
                                         %end
                                       </select></p>
                                     </div>
+
+                            
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                        <p>Izberi okrožja:  <select multiple="multiple" name = "okrozja" id = "select2">
+                                            %for ((lokacija_id, mesto_id, ime_lokacije)) in okrozja_po_mestih:
+                                                    <option value="{{lokacija_id}}">{{ime_lokacije}}</option> 
+                                            %end
+                                          </select></p>
+                                        </div>
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="600ms">
+                                        <p>Izberi znamenitosti:  <select multiple="multiple" name = "znamenitosti" id = "select4">
+                                            %for ((lokacija_id, mesto_id, ime_lokacije)) in znamenitosti_po_mestih:
+                                                    <option value="{{lokacija_id}}">{{ime_lokacije}}</option> 
+                                            %end
+                                          </select></p>
+                                        </div>
                           
 
                         <button class="btn btn-default wow bounceIn" data-wow-duration="500ms" data-wow-delay="1300ms" type="submit">DODAJ</button>

@@ -338,8 +338,14 @@ def admin():
     cur.execute("SELECT * FROM ugodnosti ORDER BY ime_ugodnosti")
     ugodnosti = cur.fetchall()
 
-    return template("admin.html", username = username, sporocilo = sporocilo, napaka1 = None,  napaka2 = None, napaka3 = None, 
-    celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+    cur.execute("SELECT lokacije.id, mesto_id, ime_lokacije FROM lokacije JOIN mesto on mesto_id = mesto.id WHERE tip = 'Okrožje' ORDER BY ime_lokacije ")
+    okrozja_po_mestih = cur.fetchall()
+    cur.execute("SELECT lokacije.id, mesto_id, ime_lokacije FROM lokacije JOIN mesto on mesto_id = mesto.id WHERE tip = 'Znamenitost' ORDER BY ime_lokacije ")
+    znamenitosti_po_mestih = cur.fetchall()
+
+    return template("admin.html", username = username, sporocilo = sporocilo, napaka1 = None,  napaka2 = None, napaka3 = None, napaka_o = None, napaka_z = None,
+    celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti, 
+    okrozja_po_mestih = okrozja_po_mestih, znamenitosti_po_mestih   = znamenitosti_po_mestih )
 
 @post("/admin/")
 def dodaj():
@@ -353,6 +359,12 @@ def dodaj():
     mesta = cur.fetchall()
     cur.execute("SELECT * FROM ugodnosti ORDER BY ime_ugodnosti")
     ugodnosti = cur.fetchall()
+
+
+    cur.execute("SELECT lokacije.id, mesto_id, ime_lokacije FROM lokacije JOIN mesto on mesto_id = mesto.id WHERE tip = 'Okrožje' ORDER BY ime_lokacije ")
+    okrozja_po_mestih = cur.fetchall()
+    cur.execute("SELECT lokacije.id, mesto_id, ime_lokacije FROM lokacije JOIN mesto on mesto_id = mesto.id WHERE tip = 'Znamenitost' ORDER BY ime_lokacije ")
+    znamenitosti_po_mestih = cur.fetchall()
 
 
     drzava = request.forms.drzava
@@ -369,7 +381,13 @@ def dodaj():
     st_zvezdic = request.forms.zvezdice
 
     ugodnosti_izbira = request.forms.getlist("ugodnosti")
+    okrozja_izbira = request.forms.getlist("okrozja")
+    znamenitosti_izbira = request.forms.getlist("znamenitosti")
 
+    dodano_okrozje = request.forms.okrozje
+    id_mesto_okrozje = request.forms.mesto_okrozje
+    dodana_znamenitost = request.forms.znamenitost
+    id_mesto_znamenitost = request.forms.mesto_znamenitost
 
     if drzava:
 
@@ -382,7 +400,9 @@ def dodaj():
                                napaka1='Ta država je že vnešena.',
                                napaka2 = None,
                                napaka3 = None,
-                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti,
+                               napaka_o = None, napaka_z = None,
+                            okrozja_po_mestih = okrozja_po_mestih, znamenitosti_po_mestih   = znamenitosti_po_mestih )
         else:
             cur.execute("INSERT INTO Drzava(Ime_drzave, Celina_id) VALUES (%s, %s)", [drzava, id_celine])
             return redirect("/admin/")
@@ -396,9 +416,47 @@ def dodaj():
                                napaka1 = None,
                                napaka2='To mesto je že vnešeno.',
                                napaka3 = None,
-                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti,
+                               napaka_o = None, napaka_z = None,
+                               znamenitosti_po_mestih = znamenitosti_po_mestih, 
+                            okrozja_po_mestih = okrozja_po_mestih )
         else:
             cur.execute("INSERT INTO mesto(ime_mesta, drzava_id) VALUES (%s, %s)", [mesto, id_drzave])
+            return redirect("/admin/") 
+
+    elif dodano_okrozje:
+        cur.execute("SELECT * FROM lokacije JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND ime_lokacije = %s", [id_mesto_okrozje, dodano_okrozje])
+        if cur.fetchone():
+        # Uporabnik že obstaja
+            return template("admin.html",
+                               username=username,
+                               napaka1 = None,
+                               napaka2= None,
+                               napaka3 = None,
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti,
+                               napaka_o = "To okrožje v tem mestu že obstaja", napaka_z = None,
+                               znamenitosti_po_mestih = znamenitosti_po_mestih, 
+                            okrozja_po_mestih = okrozja_po_mestih )
+        else:
+            cur.execute("INSERT INTO lokacije(ime_lokacije, tip, mesto_id) VALUES (%s, 'Okrožje',%s)", [dodano_okrozje, id_mesto_okrozje])
+            return redirect("/admin/") 
+
+
+    elif dodana_znamenitost:
+        cur.execute("SELECT * FROM lokacije JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND ime_lokacije = %s", [id_mesto_znamenitost, dodana_znamenitost ])
+        if cur.fetchone():
+        # Uporabnik že obstaja
+            return template("admin.html",
+                               username=username,
+                               napaka1 = None,
+                               napaka2= None,
+                               napaka3 = None,
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti,
+                               napaka_z = "Ta znamenitost v tem mestu že obstaja", napaka_o = None,
+                               znamenitosti_po_mestih = znamenitosti_po_mestih, 
+                            okrozja_po_mestih = okrozja_po_mestih )
+        else:
+            cur.execute("INSERT INTO lokacije(ime_lokacije, tip, mesto_id) VALUES (%s, 'Znamenitost',%s)", [dodana_znamenitost , id_mesto_znamenitost])
             return redirect("/admin/") 
     
     elif hotel:
@@ -413,8 +471,10 @@ def dodaj():
                                username=username,
                                napaka1 = None,
                                napaka2= None,
-                               napaka3 = 'Ta hotel v tem mestu že obstaja.',
-                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
+                               napaka3 = 'Ta hotel v tem mestu že obstaja.', napaka_o = None, napaka_z = None,
+                               celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti,
+                               znamenitosti_po_mestih = znamenitosti_po_mestih, 
+                            okrozja_po_mestih = okrozja_po_mestih)
         else:
             cur.execute("INSERT INTO hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES (%s, %s, %s, %s, %s)", [hotel, st_zvezdic, nastanitev, drzava_id, id_mesta])
             cur.execute("SELECT id FROM hotel WHERE id = (SELECT MAX(id) FROM hotel)")
@@ -422,6 +482,10 @@ def dodaj():
             zadnji_hotel = zadnji_hotel[0]
             for ugodnost in ugodnosti_izbira:
                 cur.execute("INSERT INTO ima (hotel, ugodnost) VALUES (%s, %s)", [zadnji_hotel,ugodnost])
+            for okrozje in okrozja_izbira:
+                cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (%s, %s)",[zadnji_hotel,okrozje])
+            for znamenitost in znamenitosti_izbira:
+                cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (%s, %s)",[zadnji_hotel,znamenitost])
             return redirect("/admin/") 
 
        
