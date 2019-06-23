@@ -222,6 +222,7 @@ header-img start
                     <div class="col-md-1">
                         <div class="vl"></div>
                     </div>
+                    %if username in admini:
                     <div class="col-md-5  dodaj-komentar" id="dodaj-komentar-ocena">
                         <div class="block">
                             <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Dodaj komentar in <span>oceni hotel</span> </h3>
@@ -297,6 +298,13 @@ header-img start
                                 
                         </div>
                     </div><!-- .col-md-12 close -->
+                    %else:
+                    <div class="col-md-5  dodaj-komentar" id="dodaj-komentar-ocena">
+                        <div class="block">
+                            <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">Za dodajanje komentarja se je potrebno <span>prijaviti</span> </h3>
+                    </div>
+                    </div><!-- .col-md-12 close -->
+                    %end
                     <!-- .col-md-12 close -->
                 </div><!-- .row close -->
             </div>

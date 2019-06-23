@@ -292,12 +292,11 @@ def uporabnik(sporocila=[]):
 
 @post("/uporabnik/")
 def spremeni():
-    sporocilo = get_sporocilo()
     username = get_user()
     # Staro geslo (je obvezno)
     password1 = password_hash(request.forms.password1)
     # Preverimo staro geslo
-    cur.execute ("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=? AND geslo=?",
+    cur.execute ("SELECT 1 FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
                [username, password1])
     # Pokazali bomo eno ali več sporočil, ki jih naberemo v seznam
     sporocila = []
@@ -311,18 +310,18 @@ def spremeni():
             if password2 == password3:
                 # Vstavimo v bazo novo geslo
                 password2 = password_hash(password2)
-                cur.execute ("UPDATE uporabnik SET geslo=? WHERE uporabnisko_ime = ?", [password2, username])
-                sporocila.append(("alert-success", "Spremenili ste geslo."))
+                cur.execute ("UPDATE uporabnik SET geslo=%s WHERE uporabnisko_ime = %s", [password2, username])
+                sporocila.append(("alert-success", "Geslo ste uspešno spremenili."))
             else:
                 sporocila.append(("alert-danger", "Gesli se ne ujemata"))
     else:
         # Geslo ni ok
-        sporocila.append(("alert-danger", "Napačno staro geslo"))
+        sporocila.append(("alert-danger", "Staro geslo je napačno"))
 
     
     # Prikažemo stran z uporabnikom, z danimi sporočili. Kot vidimo,
     # lahko kar pokličemo funkcijo, ki servira tako stran
-    return uporabnik( sporocila)
+    return uporabnik(sporocila)
 
 @get("/admin/")
 def admin():
