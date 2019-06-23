@@ -173,6 +173,25 @@ a.link:hover{
     border:none;
 }
 
+.ocena-uporabnikov-hotel{
+    border-radius: 20px 20px 20px 0px; 
+    font-size: 2em;
+    background-color: #df884f;
+    padding: 10px;
+    float: right;
+    
+}
+
+.ocena-uporabnikov-drzava{
+    border-radius: 20px 20px 20px 0px; 
+    font-size: 1.5em;
+    margin-top:10px;
+    background-color: #df884f;
+    padding: 10px;
+    float: right;
+    
+}
+
 .big{
     width: 60%;
     font-size: 3em;

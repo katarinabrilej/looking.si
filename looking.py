@@ -151,6 +151,7 @@ def drzave_hoteli(x):
     nastanitve = clean(nastanitve)
     nastanitve = set(nastanitve)
     nastanitve = list(nastanitve)
+    
     return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
 
 @get("/hotel-podrobno/:x")
@@ -164,7 +165,11 @@ def hotel1(x):
     cur.execute("SELECT datum, mnenje, vrednost,uporabnik.uporabnisko_ime FROM oceni JOIN uporabnik ON uporabnik.id = oceni.uporabnik WHERE hotel= %s", [x])
     komentarji = cur.fetchall()
     username = get_user()
-    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
+    cur.execute("SELECT AVG(vrednost) FROM oceni WHERE hotel=%s",[x])
+    povprecna_ocena = cur.fetchall()
+    povprecna_ocena = round(povprecna_ocena[0][0],1)
+    
+    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji, povprecna_ocena = povprecna_ocena)
 
 @post("/hotel-podrobno/")
 def dodajKomentar():
