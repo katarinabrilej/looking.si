@@ -115,7 +115,7 @@ def static(filename):
 def hotel(filename):
     return static_file(filename, root=hotel_dir)
 
-
+admini = ["katarinabrilej", "evadezelak"]
 @get("/")
 def main():
     username = get_user() 
@@ -123,7 +123,7 @@ def main():
     sporocilo = get_sporocilo()
     return template("index.html", drzave=drzave_seznam,
                            username=username,
-                           sporocilo=sporocilo)
+                           sporocilo=sporocilo, admini = admini)
 
 @get("/drzava/:x")
 def drzave_hoteli(x):
