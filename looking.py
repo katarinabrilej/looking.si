@@ -279,7 +279,7 @@ def uporabnik(sporocila=[]):
     username = get_user()
     cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=%s",[username])
     user_id =  cur.fetchall()
-    cur.execute("SELECT datum, mnenje, vrednost, ime FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
+    cur.execute("SELECT datum, mnenje, vrednost, ime, oceni.hotel FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
     mnenja = cur.fetchall()
     
     return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)

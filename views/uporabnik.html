@@ -1,5 +1,6 @@
 %rebase('base_osnovni.html')
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <script src="/hotel/js/uporabnik.js"></script>
 </head>
 <body>
 <!--
@@ -99,14 +100,16 @@ header-img start
                     <div class="col-md-12">
                         <div class="block">
                             <h3 class="title wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">MOJA <span>MNENJA</span></h3>
-                            %for (datum, mnenje, vrednost, ime) in mnenja:
-                                <h5 class="orange-text wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms"><span>{{ime}}:</span> </h5>
-                                <div class="card-hotel wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
-                                    <p class="komentar">"{{mnenje}}"</p>
+                            %for (datum, mnenje, vrednost, ime, hotel_id) in mnenja:
+                                <div class="card-mnenja" onclick="naHotel('/hotel-podrobno/{{hotel_id}}')">
+                                    <h5 class="orange-text wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms"><span>{{ime}}:</span> </h5>
+                                    <div class="card card-hotel wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
+                                        <p class="komentar">"{{mnenje}}"</p>
+                                    </div>
+                                    <p class="ocena wow fadeInLeft inline" data-wow-duration="500ms" data-wow-delay="300ms">OCENA: {{vrednost}}</p>
+                                    <p class="datum inline wow fadeInLeft inline" data-wow-duration="500ms" data-wow-delay="300ms">{{datum}}</p>
+                                    <hr size="30" align="left" width ="95%">
                                 </div>
-                                <p class="ocena wow fadeInLeft inline" data-wow-duration="500ms" data-wow-delay="300ms">OCENA: {{vrednost}}</p>
-                                <p class="datum inline wow fadeInLeft inline" data-wow-duration="500ms" data-wow-delay="300ms">{{datum}}</p>
-                                <hr size="30" align="left" width ="95%">
                             %end
                                 
                         </div>
