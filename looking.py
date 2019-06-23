@@ -368,7 +368,7 @@ def dodaj():
     nastanitev = request.forms.nastanitev
     st_zvezdic = request.forms.zvezdice
 
-    ugodnosti = request.forms.ugodnosti 
+    ugodnosti_izbira = request.forms.getlist("ugodnosti")
 
 
     if drzava:
@@ -417,7 +417,11 @@ def dodaj():
                                celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti)
         else:
             cur.execute("INSERT INTO hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES (%s, %s, %s, %s, %s)", [hotel, st_zvezdic, nastanitev, drzava_id, id_mesta])
-            cur.execute("INSERT INTO ima (hotel, ugodnost) VALUES (10, %s)", [ugodnosti])
+            cur.execute("SELECT id FROM hotel WHERE id = (SELECT MAX(id) FROM hotel)")
+            zadnji_hotel = cur.fetchone()
+            zadnji_hotel = zadnji_hotel[0]
+            for ugodnost in ugodnosti_izbira:
+                cur.execute("INSERT INTO ima (hotel, ugodnost) VALUES (%s, %s)", [zadnji_hotel,ugodnost])
             return redirect("/admin/") 
 
        
