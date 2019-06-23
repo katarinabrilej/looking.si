@@ -277,7 +277,12 @@ def register_post():
 def uporabnik(sporocila=[]):
     sporocilo = get_sporocilo()
     username = get_user()
-    return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila)
+    cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=%s",[username])
+    user_id =  cur.fetchall()
+    cur.execute("SELECT datum, mnenje, vrednost, ime FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
+    mnenja = cur.fetchall()
+    
+    return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)
 
 
 
@@ -311,10 +316,14 @@ def spremeni():
     else:
         # Geslo ni ok
         sporocila.append(("alert-danger", "Napačno staro geslo"))
-    cur.close ()
+
+    
     # Prikažemo stran z uporabnikom, z danimi sporočili. Kot vidimo,
     # lahko kar pokličemo funkcijo, ki servira tako stran
-    return uporabnik(username, sporocila=sporocila)
+
+
+
+    return uporabnik( sporocila)
 
 @get("/admin/")
 def admin():
