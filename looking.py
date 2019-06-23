@@ -151,7 +151,8 @@ def drzave_hoteli(x):
     nastanitve = clean(nastanitve)
     nastanitve = set(nastanitve)
     nastanitve = list(nastanitve)
-    return template("drzave.html", username = username, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
+    return template("drzave.html", username = username, admini = admini, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, 
+    zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
 
 @get("/hotel-podrobno/:x")
 def hotel1(x):
@@ -164,7 +165,7 @@ def hotel1(x):
     cur.execute("SELECT datum, mnenje, vrednost,uporabnik.uporabnisko_ime FROM oceni JOIN uporabnik ON uporabnik.id = oceni.uporabnik WHERE hotel= %s", [x])
     komentarji = cur.fetchall()
     username = get_user()
-    return template("hotel.html", username=username, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
+    return template("hotel.html", username=username, admini = admini, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji)
 
 @post("/hotel-podrobno/")
 def dodajKomentar():
@@ -282,10 +283,7 @@ def uporabnik(sporocila=[]):
     cur.execute("SELECT datum, mnenje, vrednost, ime FROM oceni JOIN hotel ON oceni.hotel=hotel.id WHERE oceni.uporabnik=%s",[user_id[0][0]])
     mnenja = cur.fetchall()
     
-    return template("uporabnik.html", username = username, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)
-
-
-
+    return template("uporabnik.html", username = username, admini = admini, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)
 
 
 @post("/uporabnik/")
@@ -320,9 +318,6 @@ def spremeni():
     
     # Prikažemo stran z uporabnikom, z danimi sporočili. Kot vidimo,
     # lahko kar pokličemo funkcijo, ki servira tako stran
-
-
-
     return uporabnik( sporocila)
 
 @get("/admin/")
@@ -344,7 +339,7 @@ def admin():
     znamenitosti_po_mestih = cur.fetchall()
 
     return template("admin.html", username = username, sporocilo = sporocilo, napaka1 = None,  napaka2 = None, napaka3 = None, napaka_o = None, napaka_z = None,
-    celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti, 
+    celine = celine, drzave = drzave, mesta = mesta, ugodnosti  = ugodnosti, admini = admini,
     okrozja_po_mestih = okrozja_po_mestih, znamenitosti_po_mestih   = znamenitosti_po_mestih )
 
 @post("/admin/")
@@ -396,7 +391,7 @@ def dodaj():
         if cur.fetchone():
             # Uporabnik že obstaja
             return template("admin.html",
-                               username=username,
+                               username=username,admini = admini,
                                napaka1='Ta država je že vnešena.',
                                napaka2 = None,
                                napaka3 = None,
@@ -412,7 +407,7 @@ def dodaj():
         if cur.fetchone():
         # Uporabnik že obstaja
             return template("admin.html",
-                               username=username,
+                               username=username,admini = admini,
                                napaka1 = None,
                                napaka2='To mesto je že vnešeno.',
                                napaka3 = None,
@@ -429,7 +424,7 @@ def dodaj():
         if cur.fetchone():
         # Uporabnik že obstaja
             return template("admin.html",
-                               username=username,
+                               username=username,admini = admini,
                                napaka1 = None,
                                napaka2= None,
                                napaka3 = None,
@@ -447,7 +442,7 @@ def dodaj():
         if cur.fetchone():
         # Uporabnik že obstaja
             return template("admin.html",
-                               username=username,
+                               username=username,admini = admini,
                                napaka1 = None,
                                napaka2= None,
                                napaka3 = None,
@@ -468,7 +463,7 @@ def dodaj():
         if cur.fetchone():
         # Uporabnik že obstaja
             return template("admin.html",
-                               username=username,
+                               username=username,admini = admini,
                                napaka1 = None,
                                napaka2= None,
                                napaka3 = 'Ta hotel v tem mestu že obstaja.', napaka_o = None, napaka_z = None,
