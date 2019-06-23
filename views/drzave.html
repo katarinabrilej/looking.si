@@ -408,11 +408,23 @@
                                         
                                       </div>
                                 </div>  
-                                <div class="col-md-1">
-                                    <div class="ocena-uporabnikov-drzava" >
-                                        9.6
-                                    </div>
-                                </div>
+                                %for ((ocena, hotel)) in ocene:
+                                    %if hotel == hotel_id:
+                                        %if ocena is None:
+                                        <div class="col-md-1">
+                                            <div class="ocena-uporabnikov-drzava" >
+                                            0
+                                            </div>
+                                        </div>
+                                        %else:
+                                        <div class="col-md-1">
+                                            <div class="ocena-uporabnikov-drzava" >
+                                            {{ocena}}
+                                            </div>
+                                        </div>
+                                        %end
+                                    %end
+                                %end
                             </div>  
                             
                         </div>

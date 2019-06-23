@@ -151,8 +151,12 @@ def drzave_hoteli(x):
     nastanitve = clean(nastanitve)
     nastanitve = set(nastanitve)
     nastanitve = list(nastanitve)
+
+    cur.execute("SELECT ROUND(AVG(x.vrednost),1),  y.id FROM oceni AS x RIGHT JOIN hotel AS y ON x.hotel = y.id  GROUP BY y.id")
+    ocene = cur.fetchall()
+
     return template("drzave.html", username = username, admini = admini, ugodnosti = ugodnosti, lokacije = lokacije, mesto = mesto, hoteli = hoteli, 
-    zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji)
+    zvezdice = zvezdice, nastanitve = nastanitve, ugodnosti_hoteli = ugodnosti_hoteli, na_lokaciji = na_lokaciji, ocene = ocene)
 
 @get("/hotel-podrobno/:x")
 def hotel1(x):
@@ -167,7 +171,12 @@ def hotel1(x):
     username = get_user()
     cur.execute("SELECT AVG(vrednost) FROM oceni WHERE hotel=%s",[x])
     povprecna_ocena = cur.fetchall()
-    povprecna_ocena = round(povprecna_ocena[0][0],1)
+    povprecna_ocena = povprecna_ocena[0][0]
+    if povprecna_ocena is not None:
+        povprecna_ocena = round(povprecna_ocena,1)
+    else:
+        povprecna_ocena = 0
+
     
     return template("hotel.html", username=username, admini = admini, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji, povprecna_ocena = povprecna_ocena)
 
