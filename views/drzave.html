@@ -411,13 +411,13 @@
                                 %for ((ocena, hotel)) in ocene:
                                     %if hotel == hotel_id:
                                         %if ocena is None:
-                                        <div class="col-md-1">
+                                        <div class="col-md-1 ocena-uporabnikov" id="0">
                                             <div class="ocena-uporabnikov-drzava" >
                                             0
                                             </div>
                                         </div>
                                         %else:
-                                        <div class="col-md-1">
+                                        <div class="col-md-1 ocena-uporabnikov" id="{{ocena}}">
                                             <div class="ocena-uporabnikov-drzava" >
                                             {{ocena}}
                                             </div>

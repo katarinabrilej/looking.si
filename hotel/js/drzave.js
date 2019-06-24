@@ -3,19 +3,38 @@ function handleChange(){
     var izbrano = opcije.options[opcije.selectedIndex].value;
     if(izbrano == "Abecedi")urediPoAbecedi();
     else if(izbrano == "Zvezdicah")urediPoZvezdicah();
+    else if(izbrano == "Oceni")urediPoOceni();
 }
 
 
-function urediPoZvezdicah(){      
-    console.log("alo")         
+function urediPoZvezdicah(){               
     var elem = $("#seznam").find(".card").sort(zvezdice);
     $("#seznam").append(elem);
+}
+
+function urediPoOceni(){
+    
+    var elem = $("#seznam").find(".card").sort(ocene);
+    $("#seznam").append(elem);
+    
+
+}
+
+function ocene(a,b){
+    var diva1 = a.getElementsByTagName("div")[0];
+    var diva2 = diva1.getElementsByClassName("ocena-uporabnikov")[0];
+    var divb1 = b.getElementsByTagName("div")[0];
+    var divb2 = divb1.getElementsByClassName("ocena-uporabnikov")[0];
+    diva2.id = parseFloat(diva2.id);
+    divb2.id = parseFloat(divb2.id);
+    return -1*(diva2.id - divb2.id);
+    
 }
 
 function zvezdice(a, b) {
     return a.id < b.id;
 }
-function zvezdice2(a, b) {
+function abeceda(a, b) {
     var div1 = a.getElementsByTagName("div")[0];
     var div2 = div1.getElementsByTagName("div")[1];
     var div3 = div2.getElementsByTagName("div")[0];
@@ -32,7 +51,7 @@ function zvezdice2(a, b) {
 }
 
 function urediPoAbecedi(){
-     var elem = $("#seznam").find(".card").sort(zvezdice2);
+     var elem = $("#seznam").find(".card").sort(abeceda);
      $("#seznam").append(elem);
 }
 
