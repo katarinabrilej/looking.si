@@ -385,8 +385,8 @@ def dodaj():
 
     
     nastanitev = request.forms.nastanitev
-    st_zvezdic = request.forms.zvezdice
-
+    st_zvezdic = request.forms.star
+    
     ugodnosti_izbira = request.forms.getlist("ugodnosti")
     okrozja_izbira = request.forms.getlist("okrozja")
     znamenitosti_izbira = request.forms.getlist("znamenitosti")
