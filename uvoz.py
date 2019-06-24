@@ -56,7 +56,6 @@ cur.execute("INSERT INTO Mesto (Ime_mesta,Drzava_id) VALUES ('New York',1)")
 cur.execute("DROP TABLE IF EXISTS Lokacije CASCADE")
 cur.execute("""CREATE TABLE Lokacije(Id SERIAL PRIMARY KEY, Ime_lokacije TEXT, Tip TEXT, Mesto_id INT, 
 FOREIGN KEY(Mesto_id) REFERENCES Mesto(Id))""")
-cur.execute("INSERT INTO Lokacije (Ime_lokacije, Tip, Mesto_id ) VALUES ('Waikiki Beach', 'Značilnost', 4)")
 cur.execute("INSERT INTO Lokacije (Ime_lokacije, Tip, Mesto_id ) VALUES ('Waikiki', 'Okrožje', 4)")
 cur.execute("INSERT INTO Lokacije (Ime_lokacije, Tip, Mesto_id ) VALUES ('Beverly Hills', 'Okrožje', 1)")
 cur.execute("INSERT INTO Lokacije (Ime_lokacije, Tip, Mesto_id ) VALUES ('Deutscher Dom', 'Znamenitost', 5)")
@@ -179,11 +178,6 @@ cur.execute("""CREATE TABLE Oceni(Datum DATE, Mnenje TEXT, Vrednost INT,
 Hotel INT REFERENCES Hotel(Id) ON UPDATE CASCADE ON DELETE CASCADE,
 Uporabnik INT REFERENCES Uporabnik(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIMARY KEY (Uporabnik, Hotel, Datum))""")
 
-
-
-#cur.execute("DROP TABLE IF EXISTS Slike CASCADE")
-#cur.execute("CREATE TABLE Slike(Id SERIAL PRIMARY KEY, Slika BYTEA)")
-#cur.execute("INSERT INTO Slike (Slika) VALUES (bytea('Slike\berlin_hotel.jpg'))")
 
 
 

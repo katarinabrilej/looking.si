@@ -151,7 +151,7 @@ header-img start
                                                     <h6 > {{tip_nastanitve}}</h6>
                                                 </div>
                                                 %okrozjeFlag = "true"
-                                                %značilnostFlag = "true"
+                                                
                                                 %znamenitostFlag = "true"
                                                 %for(ime_lokacije, tip, id_lokacije) in lokacije:
                                                     
@@ -165,15 +165,7 @@ header-img start
                                                     </div>
                                                     %end
                                                     
-                                                    %if tip == "Značilnost":
-                                                    <div class="{{ime_lokacije}}">
-                                                        %if značilnostFlag == "true":
-                                                            <h4 >Značilnosti:</h4>
-                                                            %značilnostFlag = "false"
-                                                        %end
-                                                        <h6> {{ime_lokacije}}</h6>
-                                                    </div>
-                                                    %end
+                                                    
                                                     
                                                     %if tip == "Znamenitost":
                                                     <div class="{{ime_lokacije}}">

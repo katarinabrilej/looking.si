@@ -237,27 +237,7 @@
         %end
     %end
 </div>
-<div class="form-check" id="znacilnost-form">
-    %flag = "true" 
-    %for (id,lokacija,tip,mesto_id) in lokacije:
-        %if tip == "Značilnost":
-            %if flag == "true":
-            </br>
-            <div class="row">
-                <h4>Značilnosti:</h4>
-                <hr size="30" align="left" width ="75%">
-            </div>
-                %flag = "false"
-            %end
-            <div class="row">
-                <input class="form-check-input form-check-input-značilnost" type="checkbox" value="{{lokacija}}" id="{{lokacija}}">
-                <label class="form-check-label" for="{{lokacija}}">
-                    {{lokacija}}
-                </label>
-            </div>
-        %end
-    %end
-</div>
+
 <div class="form-check" id="znamenitost-form">
     %flag = "true" 
     %for (id,lokacija,tip,mesto_id) in lokacije:
@@ -388,13 +368,6 @@
                                                         %end
                                                     %end
                                                     %if tip == "Znamenitost":
-                                                        %if na_lokacija[1] == id:
-                                                        <div class="{{lokacija}}">
-                                                            <p class="card-text {{lokacija}}" hidden>{{lokacija}}</p>
-                                                        </div>
-                                                        %end
-                                                    %end
-                                                    %if tip == "Značilnost":
                                                         %if na_lokacija[1] == id:
                                                         <div class="{{lokacija}}">
                                                             <p class="card-text {{lokacija}}" hidden>{{lokacija}}</p>
