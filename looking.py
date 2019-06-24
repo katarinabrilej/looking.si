@@ -115,7 +115,7 @@ def static(filename):
 def hotel(filename):
     return static_file(filename, root=hotel_dir)
 
-admini = ["katarinabrilej", "evadezelak"]
+admini = ["katarinabrilej", "evadezelak", "asistent", "profesor"]
 @get("/")
 def main():
     username = get_user() 
