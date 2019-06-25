@@ -87,7 +87,11 @@ a.link:hover{
     font-size: calc(0.4em + 1vw);
 }
 
-
+.prijaviti{
+    font-size: 1.8em;
+    text-transform: uppercase;
+    
+}
 
 
 .image{
