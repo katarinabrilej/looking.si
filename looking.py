@@ -26,6 +26,7 @@ hotel_dir = "./hotel"
 #piškotki
 secret = "to skrivnost je zelo tezko uganiti 1094107c907cw982982c42"
 
+admini = ["katarinabrilej", "evadezelak", "asistent", "profesor"]
 
 ######################################################################
 #Pomožne funkcije
@@ -42,14 +43,11 @@ def password_hash(s):
 def set_sporocilo(tip, vsebina):
     response.set_cookie('message', (tip, vsebina), path='/', secret=secret)
 
-# Funkcija, ki iz cookija dobi sporočilo, če je
-# kot brskalnik vrnemo cookie, pod nekim ključem lahko zbrisemo ali dodamo in potem vrnemo
 def get_sporocilo():
     sporocilo = request.get_cookie('message', default=None, secret=secret)
     response.delete_cookie('message')
     return sporocilo
 
-#najpomebnejša funkcija
 def get_user():
     """Poglej cookie in ugotovi, kdo je prijavljeni uporabnik,
        vrni njegov username in ime. Če ni prijavljen, presumeri
@@ -61,19 +59,11 @@ def get_user():
         cur.execute("SELECT uporabnisko_ime, ime FROM uporabnik WHERE uporabnisko_ime=%s",
                   [username])
         r = cur.fetchone()
-       # cur.close ()
         if r is not None:
             # uporabnik obstaja, vrnemo njegove podatke
-            # če smo te našli v bazi te vrnemo
             return username
-    # Če pridemo do sem, uporabnik ni prijavljen, naredimo redirect
-    # če v cookiju nismo ugotovili kdo smo, te da na login stran
-    # zdaj preusmerimo na login, saj ni vrnilo username
     else:
         return None
-    # get user torej naredi dve stvari
-    # ali smo user ki je že v bazi
-    # ali pa te preusmeri na lgoin stran
 
 ######################################################################
 # Funkcije, ki obdelajo zahteve odjemalcev.
@@ -82,14 +72,6 @@ def clean(list):
     for x in list:
         strip = x[0].strip()
         cleaned.append(strip)
-    return cleaned
-
-def clean2(list):
-    cleaned = []
-    for x in list:
-        strip1 = x[0].strip()
-        strip2 = x[1]
-        cleaned.append([strip1,strip2])
     return cleaned
 
 def clean3(list):
@@ -115,7 +97,7 @@ def static(filename):
 def hotel(filename):
     return static_file(filename, root=hotel_dir)
 
-admini = ["katarinabrilej", "evadezelak", "asistent", "profesor"]
+
 @get("/")
 def main():
     username = get_user() 
@@ -141,16 +123,12 @@ def drzave_hoteli(x):
     lokacije = cur.fetchall()
     cur.execute("SELECT ime, hotel.id, st_zvezdic, tip_nastanitve, mesto.id FROM hotel JOIN mesto ON  mesto.id = mesto_id WHERE mesto.id = %s", [x])
     hoteli = cur.fetchall()
-    cur.execute("SELECT st_zvezdic, mesto_id FROM hotel WHERE mesto_id =%s", [x])
+    cur.execute("SELECT DISTINCT st_zvezdic FROM hotel WHERE mesto_id =%s", [x])
     zvezdice = cur.fetchall()
     zvezdice = clean3(zvezdice)
-    zvezdice = set(zvezdice)
-    zvezdice = list(zvezdice)
-    cur.execute("SELECT tip_nastanitve, mesto_id FROM hotel WHERE mesto_id =%s", [x])
+    cur.execute("SELECT DISTINCT tip_nastanitve FROM hotel WHERE mesto_id =%s", [x])
     nastanitve = cur.fetchall()
-    nastanitve = clean(nastanitve)
-    nastanitve = set(nastanitve)
-    nastanitve = list(nastanitve)
+    nastanitve = clean3(nastanitve)
 
     cur.execute("SELECT ROUND(AVG(x.vrednost),1),  y.id FROM oceni AS x RIGHT JOIN hotel AS y ON x.hotel = y.id  GROUP BY y.id")
     ocene = cur.fetchall()
@@ -177,7 +155,6 @@ def hotel1(x):
     else:
         povprecna_ocena = 0
 
-    
     return template("hotel.html", username=username, admini = admini, lokacije = lokacije, ugodnosti = ugodnosti, hotel_podrobnosti = hotel_podrobnosti, komentarji = komentarji, povprecna_ocena = povprecna_ocena)
 
 @post("/hotel-podrobno/")
@@ -187,7 +164,6 @@ def dodajKomentar():
     ocena = request.forms['optradio']
     datum = date.today()
     hotel_id = request.forms['idHotela']
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     cur.execute("SELECT id FROM uporabnik WHERE uporabnisko_ime=%s",[username])
     user_id =  cur.fetchall()
     cur.execute("SELECT ime_lokacije, tip, lokacija_id FROM na_lokaciji JOIN lokacije ON lokacija_id = id WHERE hotel_id = %s",[hotel_id])
@@ -213,8 +189,6 @@ def login_post():
     username = request.forms.username
     # Izračunamo hash gesla, ki ga bomo spravili
     geslo = password_hash(request.forms.password)
-
-   # geslo = request.forms.password
     # Preverimo, ali se je uporabnik pravilno prijavil
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor) 
     cur.execute("SELECT * FROM uporabnik WHERE uporabnisko_ime=%s AND geslo=%s",
@@ -228,8 +202,6 @@ def login_post():
         # Vse je v redu, nastavimo cookie in preusmerimo na glavno stran
         response.set_cookie('username', username, path='/', secret=secret)
         redirect("/")
-
-
 
 @get("/logout/")
 def logout():
@@ -298,7 +270,6 @@ def uporabnik(sporocila=[]):
     
     return template("uporabnik.html", username = username, admini = admini, sporocilo = sporocilo,sporocila=sporocila,mnenja=mnenja)
 
-
 @post("/uporabnik/")
 def spremeni():
     username = get_user()
@@ -327,9 +298,6 @@ def spremeni():
         # Geslo ni ok
         sporocila.append(("alert-danger", "Staro geslo je napačno"))
 
-    
-    # Prikažemo stran z uporabnikom, z danimi sporočili. Kot vidimo,
-    # lahko kar pokličemo funkcijo, ki servira tako stran
     return uporabnik(sporocila)
 
 @get("/admin/")
@@ -397,11 +365,9 @@ def dodaj():
     id_mesto_znamenitost = request.forms.mesto_znamenitost
 
     if drzava:
-
-
         cur.execute("SELECT 1 FROM drzava WHERE ime_drzave=%s", [drzava])
         if cur.fetchone():
-            # Uporabnik že obstaja
+            # Država že obstaja
             return template("admin.html",
                                username=username,admini = admini,
                                napaka1='Ta država je že vnešena.',
@@ -417,7 +383,7 @@ def dodaj():
     elif mesto:
         cur.execute("SELECT 1 FROM mesto WHERE ime_mesta=%s", [mesto])
         if cur.fetchone():
-        # Uporabnik že obstaja
+        # Mesto že obstaja
             return template("admin.html",
                                username=username,admini = admini,
                                napaka1 = None,
@@ -434,7 +400,7 @@ def dodaj():
     elif dodano_okrozje:
         cur.execute("SELECT * FROM lokacije JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND ime_lokacije = %s", [id_mesto_okrozje, dodano_okrozje])
         if cur.fetchone():
-        # Uporabnik že obstaja
+        # Okrožje že obstaja
             return template("admin.html",
                                username=username,admini = admini,
                                napaka1 = None,
@@ -452,7 +418,7 @@ def dodaj():
     elif dodana_znamenitost:
         cur.execute("SELECT * FROM lokacije JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND ime_lokacije = %s", [id_mesto_znamenitost, dodana_znamenitost ])
         if cur.fetchone():
-        # Uporabnik že obstaja
+        # Znamenitost že obstaja
             return template("admin.html",
                                username=username,admini = admini,
                                napaka1 = None,
@@ -473,7 +439,7 @@ def dodaj():
 
         cur.execute("SELECT * FROM hotel JOIN mesto ON mesto.id = mesto_id WHERE mesto_id=%s AND Ime = %s", [id_mesta, hotel])
         if cur.fetchone():
-        # Uporabnik že obstaja
+        # Hotel že obstaja
             return template("admin.html",
                                username=username,admini = admini,
                                napaka1 = None,
@@ -494,10 +460,6 @@ def dodaj():
             for znamenitost in znamenitosti_izbira:
                 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (%s, %s)",[zadnji_hotel,znamenitost])
             return redirect("/admin/") 
-
-       
-
-
 
 ######################################################################
 # Glavni program
