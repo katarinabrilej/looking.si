@@ -449,7 +449,7 @@ def dodaj():
                                znamenitosti_po_mestih = znamenitosti_po_mestih, 
                             okrozja_po_mestih = okrozja_po_mestih)
         else:
-            cur.execute("INSERT INTO hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES (%s, %s, %s, %s, %s)", [hotel, st_zvezdic, nastanitev, drzava_id, id_mesta])
+            cur.execute("INSERT INTO hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES (%s, %s, %s, %s)", [hotel, st_zvezdic, nastanitev, id_mesta])
             cur.execute("SELECT id FROM hotel WHERE id = (SELECT MAX(id) FROM hotel)")
             zadnji_hotel = cur.fetchone()
             zadnji_hotel = zadnji_hotel[0]
