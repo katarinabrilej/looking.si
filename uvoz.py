@@ -76,18 +76,17 @@ cur.execute("INSERT INTO Lokacije (Ime_lokacije, Tip, Mesto_id ) VALUES ('5th Av
  
 cur.execute("DROP TABLE IF EXISTS Hotel CASCADE")
 cur.execute("""CREATE TABLE Hotel(Id SERIAL PRIMARY KEY, Ime TEXT, st_zvezdic INT, 
-tip_nastanitve TEXT, Drzava_id INT, Mesto_id INT,
-FOREIGN KEY (Drzava_id) REFERENCES Drzava(Id) ON UPDATE CASCADE ON DELETE CASCADE,
+tip_nastanitve TEXT, Mesto_id INT,
 FOREIGN KEY (Mesto_id) REFERENCES Mesto(Id) ON UPDATE CASCADE ON DELETE CASCADE)""")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('The Beverly Hills Hotel', 5, 'Hotel', 1, 1)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('The Royal Hawaiian', 5, 'Hotel', 1, 4)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('Grand Hotel Costa Rica', 4, 'Hotel', 2,2)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('Eurostars Panama City', 5, 'Hotel', 3,3)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('Hilton Berlin', 4, 'Hotel', 4, 5)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('The London NYC', 4, 'Hotel', 1, 7)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('Waldorf Astoria New York', 5, 'Hotel', 1, 7)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('New York Marriott Marquis', 4, 'Hotel', 1, 7)")
-cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Drzava_id, Mesto_id) VALUES ('Holiday Inn Brooklyn Downtown', 3, 'Hotel', 1, 7)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('The Beverly Hills Hotel', 5, 'Hotel', 1)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('The Royal Hawaiian', 5, 'Hotel', 4)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('Grand Hotel Costa Rica', 4, 'Hotel', 2)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('Eurostars Panama City', 5, 'Hotel', 3)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('Hilton Berlin', 4, 'Hotel', 5)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('The London NYC', 4, 'Hotel', 7)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('Waldorf Astoria New York', 5, 'Hotel', 7)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('New York Marriott Marquis', 4, 'Hotel', 7)")
+cur.execute("INSERT INTO Hotel (Ime, st_zvezdic, tip_nastanitve, Mesto_id) VALUES ('Holiday Inn Brooklyn Downtown', 3, 'Hotel', 7)")
 
 cur.execute("DROP TABLE IF EXISTS Na_lokaciji CASCADE")
 cur.execute("""CREATE TABLE Na_lokaciji(Hotel_id INT , Lokacija_id INT ,
@@ -101,9 +100,9 @@ cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (4,6)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (5,4)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (6,8)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (6,12)")
-cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (6,16)")
+cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (6,15)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (7,8)")
-cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (7,16)")
+cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (7,15)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (8,8)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (8,7)")
 cur.execute("INSERT INTO Na_lokaciji (Hotel_id, Lokacija_id ) VALUES (8,11)")
@@ -185,4 +184,3 @@ Uporabnik INT REFERENCES Uporabnik(Id) ON UPDATE CASCADE ON DELETE CASCADE, PRIM
 # poženemo strežnik na portu 8080, glej http://localhost:8000/
 # run(host='localhost', port=8000)
 
-# glej predavanja 4, viri, sqlite3test
